@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,associateTab,userToRMTAgreementTab,url2,NameTextbox,RMTAgreementTextbox,lookUpButton,submitButton,clearButton,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,Associate,userToAgreementTab,https://opxrmtmain.azurewebsites.net/Home/Associate,txtUserSearchUA,/html/body/div[2]/div/div/div[2]/div[2]/div/div/div/div/form/div[2]/div/span/span[1]/span,btnLookupUA,btnUpdateUA,btnCancelUA,Log off,

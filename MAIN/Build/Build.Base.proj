@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+
+  <!-- =================================================================================-->
+  <!-- IMPORTS -->
+  <!-- =================================================================================-->
+
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\TeamBuild\Microsoft.TeamFoundation.Build.targets" />
+
+  <!-- =================================================================================-->
+  <!-- PROPERTIES -->
+  <!-- =================================================================================-->
+  <PropertyGroup>
+
+    <!-- Root Folder -->
+    <ROOTDIR>$(MSBuildProjectDirectory.Substring(0, $(MSBuildProjectDirectory.LastIndexOf('Dev'))))</ROOTDIR>
+
+    <!-- External Folder -->
+    <EXTERNALROOT>$(MSBuildProjectDirectory.Substring(0, $(MSBuildProjectDirectory.LastIndexOf('Dev'))))External</EXTERNALROOT>
+
+    <!-- Build Folder -->
+    <BUILDROOT>$(MSBuildProjectDirectory.Substring(0, $(MSBuildProjectDirectory.LastIndexOf('Dev'))))Build</BUILDROOT>
+
+
+  </PropertyGroup>
+
+  <!-- =================================================================================-->
+  <!-- TARGETS -->
+  <!-- =================================================================================-->
+  
+   <Target Name="Build">   
+        <MSBuild Projects="@(ProjectFile)" Targets="Build" BuildInParallel="false" />
+    </Target>
+
+</Project>

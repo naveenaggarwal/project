@@ -1,0 +1,48 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MSCOM.Test.Tools" GeneratedClassName="WorkItemsMigrate">
+  <Profiles />
+  <Settings>
+    <Setting Name="TFSServerOriginal" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://mscomvstf:8080/tfs</Value>
+    </Setting>
+    <Setting Name="TFSProjectOriginal" Type="System.String" Scope="User">
+      <Value Profile="(Default)">RXDPartner</Value>
+    </Setting>
+    <Setting Name="OriginalIdList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">original_Id</Value>
+    </Setting>
+    <Setting Name="OriginalDetails" Type="System.String" Scope="User">
+      <Value Profile="(Default)">original_Details</Value>
+    </Setting>
+    <Setting Name="ProductName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OPX</Value>
+    </Setting>
+    <Setting Name="TFSServerNew" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://msitvstf1:8080/tfs</Value>
+    </Setting>
+    <Setting Name="TFSProjectNew" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MSIT1TPC1Project1</Value>
+    </Setting>
+    <Setting Name="TFSProjectCollectionOriginal" Type="System.String" Scope="User">
+      <Value Profile="(Default)">MSCOM</Value>
+    </Setting>
+    <Setting Name="TFSProjectCollectionNew" Type="System.String" Scope="User">
+      <Value Profile="(Default)">TPC1</Value>
+    </Setting>
+    <Setting Name="OutPutHTML" Type="System.String" Scope="User">
+      <Value Profile="(Default)">outPut_Validate.html</Value>
+    </Setting>
+    <Setting Name="CreateHTMLOnValidate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FieldsToMigrateFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">fields_to_migrate</Value>
+    </Setting>
+    <Setting Name="UpdatePairedIdList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">migrated_Paired_Id</Value>
+    </Setting>
+    <Setting Name="WorkItemType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Test Case</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

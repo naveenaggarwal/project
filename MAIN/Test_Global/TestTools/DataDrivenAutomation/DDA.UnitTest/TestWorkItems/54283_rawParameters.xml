@@ -1,0 +1,7 @@
+<parameters>
+  <param name="x" bind="default" />
+  <param name="y" bind="default" />
+  <param name="r" bind="default" />
+  <param name="z" bind="default" />
+  <param name="result" bind="default" />
+</parameters>

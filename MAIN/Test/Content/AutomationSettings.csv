@@ -1,0 +1,45 @@
+AutomationSetting,Value
+CurrentEnvironment,MAIN
+PDSLocation,\\MPSITOEMTEST3\PDS
+Redmond_test,test!@#
+UsePDS,false
+HostsFileLocation,C:\Windows\System32\Drivers\etc\hosts
+MATBrowserIsVisible,true
+MATBrowserTimeOutTreshold,4
+IsLocalRun,true
+TFSServer,https://mpsit.visualstudio.com
+TFSProjectCollection,DefaultCollection
+TFSProject,ScrumProjects
+TFSIterationPath,ScrumProjects\Partner\Portals\OEM\Sprints
+TFSAreaPath,ScrumProjects\Partner\Portals\OEM\MyOEM\Core
+AutomationLog,TextFile
+AutomationLogCSV,true
+AutomationLogHTML,true
+AutomationErrorLog,true
+HTTPWatchTimeOut,30
+IEBrowserIsVisible,true
+IEBrowserInitializeAttempts,20
+IEBrowserTimeOutTreshold,3
+IEBrowserClearCookies,true
+STSPreLoginMicrosoftEmployeesInputId,CustomHRD_MSFT_x
+STSPreLoginPartnersDomainInputId,CustomHRD_MSPARTNER_x
+STSPreLoginNextInputId,CustomHRD_btnGotoFA
+STSLoginUsernameTextEmployee,txtBoxEmail
+STSLoginUsernameTextPartner,UsernameTextBox
+STSLoginPasswordPartner,PasswordTextBox
+STSLoginPasswordEmployee,txtBoxPassword
+STSLoginButtonTextPartner,SubmitButton
+STSLoginButtonTextEmployee,btnSignin
+STSNextButtonId,CustomHRD_btnGotoFA
+SiteMasterPage,ctl00_PlaceHolderMain_ctl00_ctl00_masterPageSelectionControl_ctl00_SiteMasterPageDropDownList
+LiveIdPreSignInDropDown,ctl00_ContentPlaceHolder1_PassiveIdentityProvidersDropDownList
+LiveIdPreSignInLIVEOption,LiveID INT
+LiveIdPreSignInCORPOption,adfsnextgen.redmond.corp.microsoft.com
+LiveLoginUsernameText,login
+LiveLoginPasswordText,passwd
+LiveLoginButton,Sign in
+TestTimeOut,300
+HtmlCSS,"body{font-family:""Trebuchet MS"", Arial, Helvetica, sans-serif;}#logTable{font-family:""Trebuchet MS"", Arial, Helvetica, sans-serif;width:100%;border-collapse:collapse;}#logTable td, #customers th {font-size:1.2em;border:1px solid #98bf21;padding:3px 7px 2px 7px;}#logTable th {font-size:1.4em;text-align:left;padding-top:5px;padding-bottom:4px;background-color:#A7C942;color:#fff;}#logTable tr.alt td {color:#000;background-color:#EAF2D3;}"
+AutomationConsoleLogMaxCharacters,2000
+CreateBugOnFailure,true
+CreateBugOnFailure_Type,Code

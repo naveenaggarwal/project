@@ -1,0 +1,13 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <!--<ProjectFile Include="HomeRedesign\HitachiTestAutomation\HitachiTestAutomation.sln"/>-->
+    <ProjectFile Include="OPXTestAutomation\OPXTestAutomation.sln"/>
+    <!--<ProjectFile Include="..\PostDeployment\dirs.proj"/>-->
+    <ProjectFile Include="OneClickDeployment\Build.proj"/>
+    <ProjectFile Include="..\Test_Global\TestTools\OneClickDeployment\Build_OPX.proj"/>
+    <ProjectFile Include="OPXTestAutomation\AutomatedTests\OPXAutomationV2.sln"/>
+    <ProjectFile Include="OPXTestAutomation\AutomatedTests\WarmupPages\HitTheUrls.csproj"/>
+    <ProjectFile Include="OPXTestAutomation\AutomatedTests\Misc\Build.proj"/>
+  </ItemGroup>
+  <Import Project="$(MSBuildProjectDirectory.Substring(0, $(MSBuildProjectDirectory.LastIndexOf('Test'))))Build\Build.BaseTest.proj"/>
+</Project>

@@ -1,0 +1,38 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ProjectFile Include="..\Sources\CMS\dirs.proj"/>
+    <ProjectFile Include="..\Sources\MPN BI\dirs.proj"/>
+    <ProjectFile Include="..\Sources\Tooling\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Search\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\AzureDLM\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\ProfileStore\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\HCP\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\WEDCS\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\ApplicationHealthServices\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Downloads\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\MSDecisions\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\AssetManager\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\MSVideo\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Sharepoint\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\DPSMain\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\DLC\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Homepage\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\CSP\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Showcase\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\TemplatesAndComponents\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\RedirectionServices\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Mobile\dirs.proj"/>
+    <ProjectFile Include="..\Sources\OPX\Dev\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Partners\OPX\Test\dirs.proj"/>
+    <ProjectFile Include="..\Sources\Argo\Dev\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Partners\Argo\Test\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Partners\DigitalAnalytics\dirs.proj"/>
+    <ProjectFile Include="..\Sources\ActiveLegacy\Partners\FeaturedDevices\dirs.proj"/>
+    <!--<ProjectFile Include="..\Sources\OPX\dirs.proj"/>-->
+    <!--<ProjectFile Include="..\Sources\Argo\dirs.proj"/>-->
+
+
+  </ItemGroup>
+  <Import Project="Build.Base.proj" />
+</Project>
+

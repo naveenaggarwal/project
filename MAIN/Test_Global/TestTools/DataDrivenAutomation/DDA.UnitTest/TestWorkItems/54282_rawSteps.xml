@@ -1,0 +1,63 @@
+<steps id="0" last="5">
+  <step id="1" type="ActionStep">
+    <parameterizedString>
+      <text>Calculate </text>
+      <parameter>x2</parameter>
+      <text> x </text>
+      <parameter>y2</parameter>
+    </parameterizedString>
+    <parameterizedString />
+    <description></description>
+  </step>
+  <step id="2" type="ActionStep">
+    <parameterizedString>
+      <text>Add </text>
+      <parameter>x1</parameter>
+      <text> + </text>
+      <parameter>y1</parameter>
+    </parameterizedString>
+    <parameterizedString />
+    <description></description>
+  </step>  
+  <step id="3" type="ActionStep">
+    <parameterizedString>
+      <text>Add previous step result and </text>
+      <parameter>z1</parameter>
+    </parameterizedString>
+    <parameterizedString />
+    <description></description>
+  </step>
+  <step id="4" type="ActionStep">
+    <parameterizedString>
+      <text>Add </text>
+      <parameter>x3</parameter>
+      <text> + </text>
+      <parameter>y3</parameter>
+    </parameterizedString>
+    <parameterizedString>
+      <text>Result is </text>
+      <parameter>result1</parameter>
+    </parameterizedString>
+    <description></description>
+  </step>
+  <step id="5" type="ActionStep">
+    <parameterizedString />
+    <parameterizedString>
+      <text>Determine if bool </text>
+      <parameter>a1</parameter>
+      <text> == </text>
+      <parameter>b</parameter>
+    </parameterizedString>    
+    <description></description>
+  </step>
+  <step id="6" type="ActionStep">
+    <parameterizedString />
+    <parameterizedString>
+      <text>Determine if bool </text>
+      <parameter>a2</parameter>
+      <text> == </text>
+      <parameter>b</parameter>
+    </parameterizedString>
+    <description></description>
+  </step>  
+</steps>

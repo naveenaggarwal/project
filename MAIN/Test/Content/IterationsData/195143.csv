@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,passwordTextbox,signInButton,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,cred_password_inputtext,cred_sign_in_button,Log off,
