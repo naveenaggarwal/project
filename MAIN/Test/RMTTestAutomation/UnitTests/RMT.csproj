@@ -96,14 +96,6 @@
       <Project>{d0114365-1a20-40c8-9122-379a425e0594}</Project>
       <Name>DataHelper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Test_Global\TestTools\HelperProjects\BusinessHelper\RemoteScriptHelper\RemoteScriptHelper.csproj">
-      <Project>{1a9955a7-da00-4ded-a465-2c471e565511}</Project>
-      <Name>RemoteScriptHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Test_Global\TestTools\HelperProjects\BusinessHelper\SharePointHelper\SharePointHelper.csproj">
-      <Project>{dd9dfde7-2cae-481e-9c97-a1280e59f73f}</Project>
-      <Name>SharePointHelper</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\Test_Global\TestTools\HelperProjects\BusinessHelper\WebHelper\WebHelper.csproj">
       <Project>{491500f6-9c22-4fe7-a5e2-364ef91c96ee}</Project>
       <Name>WebHelper</Name>
@@ -115,10 +107,6 @@
     <ProjectReference Include="..\..\..\Test_Global\TestTools\Tools\Tools.csproj">
       <Project>{61a69ec4-3f43-4725-83e7-2f241bc71dff}</Project>
       <Name>Tools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OPXHelper\OPXHelper\OPXHelper.csproj">
-      <Project>{822a61cd-e2f9-4376-8ea4-cf141660d279}</Project>
-      <Name>OPXHelper</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

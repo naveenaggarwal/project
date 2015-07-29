@@ -816,7 +816,7 @@ namespace MSCOM.BusinessHelper
 
             foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElementsByTagName("span"))
             {
-                if ((elementSet.GetAttribute("innerText") == value || elementSet.GetAttribute("title") == value) && elementSet.GetAttribute("href") != null)
+                if (elementSet.GetAttribute("innerText").Contains(value)|| elementSet.GetAttribute("title") == value)
                 {
                     MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Span link element '{0}' was found in the page.", value));
                     elementSet.Click();
