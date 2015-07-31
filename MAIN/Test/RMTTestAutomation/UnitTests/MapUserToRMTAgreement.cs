@@ -12,6 +12,13 @@ namespace RMT.UnitTests
     [TestClass]
     public class MapUserToRMTAgreement
     {
+        #region SQLQueries
+
+        string mapRMTAgreementToUserQuery = "SELECT Agreement.agreementName FROM UserAgreement JOIN Agreement ON UserAgreement.agreementID = Agreement.agreementID JOIN [User] ON [User].userID = UserAgreement.userID WHERE userName = 'DellTestUser_8@DellAAD.onmicrosoft.com'";
+        string getEnabledRMTAgreementsForUser = "SELECT Agreement.agreementName FROM UserAgreement JOIN Agreement ON UserAgreement.agreementID = Agreement.agreementID JOIN [User] ON [User].userID = UserAgreement.userID WHERE userName = 'DellTestUser_8@DellAAD.onmicrosoft.com' AND Agreement.statusID = 1";
+
+        #endregion
+
         #region Attributes
         private CSVTestCase currentTC;
         #endregion
@@ -126,6 +133,94 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.GetElement(results[0], i["clearButton"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(189414)]
+        [TestProperty("TestCaseId", "189414")]
+        public void VerifyRMTAgreementsAreMappedToUserInDatabase()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["associateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRMTAgreementTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["name"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementsTextbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnOrderedListElement(results[0], i["RMTAgreementsDropDown"], i["agreementName1"]));
+                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementsTextbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnOrderedListElement(results[0], i["RMTAgreementsDropDown"], i["agreementName2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["submitButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    //results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["alertPopUp"], i["text1"]));
+                    results.Add(SeleniumWebHelper.CheckControlIsEmpty(results[0], i["nameTextbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompare(mapRMTAgreementToUserQuery, i["agreementName1"], i["agreementName2"]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(193089)]
+        [TestProperty("TestCaseId", "193089")]
+        public void VerifyOnlyEnabledRMTAgreementsAreRendered()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["associateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRMTAgreementTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["name"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.GetTextboxValues(results[0]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompare(getEnabledRMTAgreementsForUser, (object)results[9]));
                     results.Clear();
                 }
                 catch (DDAIterationException e)

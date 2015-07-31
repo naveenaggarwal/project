@@ -168,5 +168,52 @@ namespace RMT.UnitTests
             Assert.IsNull(error, error);
         }
 
+        [TestMethod]
+        [WorkItem(199430)]
+        [TestProperty("TestCaseId", "199430")]
+        public void VerifySubmitButtonFunctionality()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["associateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRoleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["NameTextbox"], i["Name"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
+                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleDropDown"], i["roleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["submitButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    //results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    //results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["alertPopUp"], i["text1"]));
+                    results.Add(SeleniumWebHelper.CheckControlIsEmpty(results[0], i["NameTextbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
     }
 }

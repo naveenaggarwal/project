@@ -395,10 +395,13 @@ namespace MSCOM.BusinessHelper
             {
                 foreach (IWebElement elementSet in wBrowser.FindElementsByTagName("input"))
                 {
-                    if (elementSet.GetAttribute("title") == value || elementSet.GetAttribute("text") == value || elementSet.GetAttribute("class") == value)
+                    if (elementSet.Text != null && elementSet.Text != "")
                     {
-                        elementSet.Click();
-                        return wBrowser;
+                        if (elementSet.GetAttribute("title") == value || elementSet.GetAttribute("text") == value || elementSet.GetAttribute("class") == value)
+                        {
+                            elementSet.Click();
+                            return wBrowser;
+                        }
                     }
                 }
             }

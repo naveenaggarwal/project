@@ -6,8 +6,8 @@
     <ProjectGuid>{91B5BF77-7D40-415D-BA18-2DEFD51A5CB1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OPX.RenderingTest</RootNamespace>
-    <AssemblyName>OPX.RenderingTest</AssemblyName>
+    <RootNamespace>RMT.UnitTests</RootNamespace>
+    <AssemblyName>RMT.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
