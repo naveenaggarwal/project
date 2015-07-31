@@ -814,7 +814,7 @@ namespace MSCOM.BusinessHelper
             OpenQA.Selenium.IE.InternetExplorerDriver wBrowser = (OpenQA.Selenium.IE.InternetExplorerDriver)browser;
             string fileName = string.Format("CannotFindElement{0}", value);
 
-            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElementsByTagName("span"))
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElementsByTagName("a"))
             {
                 if (elementSet.GetAttribute("innerText").Contains(value)|| elementSet.GetAttribute("title") == value)
                 {
@@ -1048,6 +1048,7 @@ namespace MSCOM.BusinessHelper
                     {
                         OpenQA.Selenium.IJavaScriptExecutor js = (OpenQA.Selenium.IJavaScriptExecutor)browser;
                         js.ExecuteScript("arguments[0].click();", element);
+                        wBrowser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
                         Wait(wBrowser);
                     }
                 }
@@ -1072,7 +1073,8 @@ namespace MSCOM.BusinessHelper
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to find element with XPath '{0}' in the provided browser.", ElementXpath));
                 return false;
             }
-
+            
+            wBrowser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
             return wBrowser;
         }
 
@@ -1189,34 +1191,25 @@ namespace MSCOM.BusinessHelper
             }
         }
 
+        /// <summary>
+        /// Click on a button element
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="value">text associated with the button element</param>
+        /// <returns>Browser as an object. Throws DDAStepExecption otherwise.</returns>
         public static object ClickOnAButton(object browser, string value)
         {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
 
-        NullLoop: OpenQA.Selenium.IE.InternetExplorerDriver wBrowser = (OpenQA.Selenium.IE.InternetExplorerDriver)browser;
-            Wait(wBrowser);
-            Wait(wBrowser);
-            Wait(wBrowser);
-            Wait(wBrowser);
-            var button = (OpenQA.Selenium.IWebElement)GetButtonElement(wBrowser, value);
-            if (button != null)
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("button")))
             {
-                if (button.GetAttribute("id") != null && button.GetAttribute("id").Trim() != "")
+                if (element.GetAttribute("innerText") == value || element.Text == value)
                 {
-                    var obj = ClickOnElement(wBrowser, button.GetAttribute("id"));
-                    Wait(wBrowser);
+                    element.Click();
+                    return wBrowser;
                 }
-                else
-                {
-                    button.Click();
-                    WaitForAjax(wBrowser);
-                }
-
-                return wBrowser;
             }
-            else
-            {
-                goto NullLoop;
-            }
+            
             throw new DDA.DDAStepException(string.Format("Unable to click on button '{0}'. Unable to find element in provided browser.", value));
         }
 
@@ -1357,6 +1350,9 @@ namespace MSCOM.BusinessHelper
                 if (reqElement.Text == value || reqElement.GetAttribute("innerText") == value)
                 {
                     reqElement.Click();
+                    wBrowser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(20));
+                    Wait(browser);
+                    WaitForAjax(browser);
                     return wBrowser;
                 }
             }
@@ -1451,14 +1447,13 @@ namespace MSCOM.BusinessHelper
         /// <param name="elementID">ID of the element</param>
         /// <param name="bgColor">the background color of the element</param>
         /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
-        public static object CheckElementBackgroundColor(object browser, string elementID, string bgColor)
+        public static object CheckElementBackgroundColorIsNot(object browser, string elementID, string bgColor)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
             string fileName = string.Format("{0}ElementBackgroundColorMismatch", elementID);
 
             OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(elementID));
-            var color = element.GetCssValue("background-color");
-            if (element.GetCssValue("background-color") == bgColor)
+            if (element.GetCssValue("background-color") != bgColor)
             {
                 return wBrowser;
             }
@@ -1467,6 +1462,32 @@ namespace MSCOM.BusinessHelper
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementID));
             throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementID));
+        }
+
+        /// <summary>
+        /// Checks the background color for the link element
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="linkText">text associated with the link</param>
+        /// <param name="bgColor">the background color of the link</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckLinkBackgroundColorIsNot(object browser, string linkText, string bgColor)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}ElementBackgroundColorMismatch", linkText);
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("a")))
+            {
+                if (element.GetAttribute("href").Contains(linkText) && element.GetCssValue("background-color") != bgColor)
+                {
+                    return wBrowser;
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The link '{0}' has a different background color in the provided browser.", linkText));
+            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", linkText));
         }
     }
 }
