@@ -1489,5 +1489,24 @@ namespace MSCOM.BusinessHelper
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The link '{0}' has a different background color in the provided browser.", linkText));
             throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", linkText));
         }
+
+        /// <summary>
+        /// Gets the values rendered in the textbox
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <returns>the values as a list</returns>
+        public static List<string[]> GetTextboxValues(object browser)
+        {
+            List<string[]> values = new List<string[]>();
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.ClassName("select2-selection__choice")))
+            {
+                string[] title = {elementSet.GetAttribute("title")};
+                values.Add(title);
+            }
+
+            return values;
+        }
     }
 }
