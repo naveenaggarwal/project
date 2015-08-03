@@ -1,2 +1,2 @@
-webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,associateTab,RMTAgreementToRoleTab,url2,lookUpButton,submitButton,clearButton,logOff,
-IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,Associate,agreementToRoleTab,https://opxrmtmain.azurewebsites.net/Home/Associate,btnLookupAR,btnUpdateAR,btnCancelAR,Log off,
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,RMTAgreementToRoleTab,url2,lookUpButton,submitButton,clearButton,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,agreementToRoleTab,https://opxrmtmain.azurewebsites.net/Home/Associate,btnLookupAR,btnUpdateAR,btnCancelAR,Log off,

@@ -44,6 +44,7 @@ namespace RMT.UnitTests
                 try
                 {
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
@@ -80,11 +81,11 @@ namespace RMT.UnitTests
                 try
                 {
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
-                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["associateTab"]));
-                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRoleTab"]));
                     results.Add(SeleniumWebHelper.GetElement(results[0], i["nameTextbox"]));
                     results.Add(SeleniumWebHelper.GetElement(results[0], i["RMTAgreementsTextbox"]));
@@ -127,6 +128,7 @@ namespace RMT.UnitTests
                 try
                 {
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
@@ -182,11 +184,11 @@ namespace RMT.UnitTests
                 try
                 {
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
-                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["associateTab"]));
-                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRoleTab"]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["NameTextbox"], i["Name"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));

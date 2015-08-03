@@ -324,6 +324,40 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Checks if cached credentials are rendered
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <returns>If the element is rendered, clicks on it and returns the browser as an object. Else return the browser as an object.</returns>
+        public static object CheckIfCachedCredentialsAreRendered(object browser)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+
+            try
+            {
+                OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id("use_another_account_link"));
+
+                if (element != null)
+                {
+                    element.Click();
+                    return wBrowser;
+                }
+                else
+                {
+                    return wBrowser;
+                }
+            }
+            
+            catch (InvalidElementStateException)
+            {
+                return wBrowser;
+            }
+            catch (NoSuchElementException)
+            {
+                return wBrowser;
+            }
+        }
+
+        /// <summary>
         /// Writes the given value on the given element (based on id)
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IE.InternetExplorerDriver object</param>
@@ -790,12 +824,20 @@ namespace MSCOM.BusinessHelper
             throw new DDA.DDAStepException(string.Format("Unable to find link element '{0}' in the page.", value));
         }
 
+        /// <summary>
+        /// Clicks on a link with the help of the text associated with it
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="value">text associated with the link</param>
+        /// <returns>Returns browser as an object. Throws DDAStepException otherwise.</returns>
         public static object ClickOnLinkByText(object browser, string value)
         {
-            OpenQA.Selenium.IE.InternetExplorerDriver wBrowser = (OpenQA.Selenium.IE.InternetExplorerDriver)browser;
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
             string fileName = string.Format("CannotFindElement{0}", value);
 
-            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElementsByTagName("a"))
+            wBrowser.Navigate().Refresh();
+            wBrowser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("a")))
             {
                 if ((elementSet.GetAttribute("innerText") == value || elementSet.GetAttribute("title") == value) && elementSet.GetAttribute("href") != null)
                 {
