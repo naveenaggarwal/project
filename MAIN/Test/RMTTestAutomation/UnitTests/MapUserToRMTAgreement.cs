@@ -109,6 +109,47 @@ namespace RMT.UnitTests
         }
 
         [TestMethod]
+        [WorkItem(195170)]
+        [TestProperty("TestCaseId", "195170")]
+        public void VerifyUserCanNavigateByClickingOnRelevantLinks()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["associateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRMTAgreementTab"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url3"]));
+                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTHomeLink"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url1"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
         [WorkItem(189407)]
         [TestProperty("TestCaseId", "189407")]
         public void VerifyAllControlsAreRendered()
@@ -179,7 +220,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
                     //results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["alertPopUp"], i["text1"]));
-                    results.Add(SeleniumWebHelper.CheckControlIsEmpty(results[0], i["nameTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["nameTextbox"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Add(SQLHelper.RunQueryAndCompare(mapRMTAgreementToUserQuery, i["agreementName1"], i["agreementName2"]));
@@ -238,6 +279,46 @@ namespace RMT.UnitTests
         }
 
         [TestMethod]
+        [WorkItem(189412)]
+        [TestProperty("TestCaseId", "189412")]
+        public void VerifyAllExistingRMTAgreementsForAnExistingUserAreRendered()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRMTAgreementTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["name"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.GetTextboxValues(results[0]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompare(mapRMTAgreementToUserQuery, (object)results[9]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
         [WorkItem(193090)]
         [TestProperty("TestCaseId", "193090")]
         public void VerifyDefaultBehaviorOfMapUserToRMTAgreementPage()
@@ -262,8 +343,8 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CheckElementBackgroundColorIsNot(results[0], i["userToRMTAgreementTab"], i["bgColor"]));
                     results.Add(SeleniumWebHelper.GetElementLabel(results[0], i["nameLabel"]));
                     results.Add(SeleniumWebHelper.GetElementLabel(results[0], i["RMTAgreementsLabel"]));
-                    results.Add(SeleniumWebHelper.CheckControlIsEmpty(results[0], i["NameTextbox"]));
-                    results.Add(SeleniumWebHelper.CheckControlIsEmptyByXPath(results[0], i["RMTAgreementsTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["NameTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyByXPath(results[0], i["RMTAgreementsTextbox"]));
                     results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.ElementIsDisabled(results[0], i["submitButton"]));
                     results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["clearButton"]));
@@ -319,7 +400,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["yesButton"]));
                     //results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["alertPopUp"], i["text1"]));
                     //results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["OKButton"]));
-                    results.Add(SeleniumWebHelper.CheckControlIsEmpty(results[0], i["NameTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["NameTextbox"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();

@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,RMTAgreementToRoleTab,url2,RMTAgreementTextbox,randomName,lookUpButton,RMTAgreementNameAlertBox,notFoundMessage,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,agreementToRoleTab,https://opxrmtmain.azurewebsites.net/Home/Associate,txtAgreementSearch,yepnier,btnLookupAR,txtAgreementSearch-AlertLine,Agreement does not exists,Log off,

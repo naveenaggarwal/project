@@ -141,8 +141,8 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.GetElementLabel(results[0], i["RMTAgreementsLabel"]));
                     results.Add(SeleniumWebHelper.GetElementLabel(results[0], i["availableRolesLabel"]));
                     results.Add(SeleniumWebHelper.GetElementLabel(results[0], i["assignedRolesLabel"]));
-                    results.Add(SeleniumWebHelper.CheckControlIsEmpty(results[0], i["nameTextbox"]));
-                    results.Add(SeleniumWebHelper.CheckControlIsEmptyByXPath(results[0], i["RMTAgreementsTextbox"], i["RMTAgreementsTextboxDefaultText"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["nameTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyByXPath(results[0], i["RMTAgreementsTextbox"], i["RMTAgreementsTextboxDefaultText"]));
                     results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.ElementIsDisabled(results[0], i["submitButton"]));
                     results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["clearButton"]));
@@ -200,7 +200,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
                     //results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
                     //results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["alertPopUp"], i["text1"]));
-                    results.Add(SeleniumWebHelper.CheckControlIsEmpty(results[0], i["NameTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["NameTextbox"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();

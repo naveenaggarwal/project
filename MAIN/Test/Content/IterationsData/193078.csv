@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,RMTAgreementToRoleTab,url2,lookUpButton,RMTAgreementNameErrorBox,errorMessage,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,agreementToRoleTab,https://opxrmtmain.azurewebsites.net/Home/Associate,btnLookupAR,txtAgreementSearch-error,This field is required.,Log off,
