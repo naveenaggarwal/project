@@ -14,9 +14,9 @@ namespace MSCOM.BusinessHelper
     public static class SQLHelper
     {
         #region CONSTANTS
-        public static string ServerName = "jov2ocyb4e.database.windows.net";
+        public static string ServerName = "hbir4trrc7.database.windows.net";
         public static string DatabaseName = "RoleManagement";
-        public static string UserName = "RMTDBAdmin@jov2ocyb4e";
+        public static string UserName = "RMTDBAdmin@hbir4trrc7";
         public static string Password = "OPX@2015";
         #endregion
 

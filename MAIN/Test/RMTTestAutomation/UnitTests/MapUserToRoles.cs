@@ -96,7 +96,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.GetElement(results[0], i["removeSelectedRoleButton"]));
                     results.Add(SeleniumWebHelper.GetElement(results[0], i["removeAllRolesButton"]));
                     results.Add(SeleniumWebHelper.GetElement(results[0], i["lookUpButton"]));
-                    results.Add(SeleniumWebHelper.GetElement(results[0], i["submitButton"]));
+                    results.Add(SeleniumWebHelper.GetElement(results[0], i["saveButton"]));
                     results.Add(SeleniumWebHelper.GetElement(results[0], i["clearButton"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
@@ -144,7 +144,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["nameTextbox"]));
                     results.Add(SeleniumWebHelper.IsControlEmptyByXPath(results[0], i["RMTAgreementsTextbox"], i["RMTAgreementsTextboxDefaultText"]));
                     results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["lookUpButton"]));
-                    results.Add(SeleniumWebHelper.ElementIsDisabled(results[0], i["submitButton"]));
+                    results.Add(SeleniumWebHelper.ElementIsDisabled(results[0], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["clearButton"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["RMTAgreementToRoleTab"]));
                     results.Add(SeleniumWebHelper.CheckElementBackgroundColorIsNot(results[0], i["RMTAgreementToRoleTab"], i["bgColor"]));
@@ -173,7 +173,7 @@ namespace RMT.UnitTests
         [TestMethod]
         [WorkItem(199430)]
         [TestProperty("TestCaseId", "199430")]
-        public void VerifySubmitButtonFunctionality()
+        public void VerifySaveButtonFunctionality()
         {
             string error = null;
             int iteration = 0;
@@ -196,7 +196,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
                     results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleDropDown"], i["roleName"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
-                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["submitButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
                     //results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
                     //results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["alertPopUp"], i["text1"]));

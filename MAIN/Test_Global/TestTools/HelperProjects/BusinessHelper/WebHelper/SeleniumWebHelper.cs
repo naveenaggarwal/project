@@ -1229,6 +1229,55 @@ namespace MSCOM.BusinessHelper
         /// Checks the background color for the element
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementText">text associated with the element</param>
+        /// <param name="bgColor">the background color of the element</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckElementBackgroundColorByText(object browser, string elementText, string bgColor)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}ElementBackgroundColorMismatch", elementText);
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("li")))
+            {
+                if ((element.Text.Contains(elementText) || element.GetAttribute("innerText").Contains(elementText)) && (element.GetCssValue("background-color") == bgColor))
+                {
+                    return wBrowser;
+                }
+            }
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementText));
+            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
+        }
+
+        /// <summary>
+        /// Checks the background color for the element
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementID">ID of the element</param>
+        /// <param name="bgColor">the background color of the element</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckElementBackgroundColorIs(object browser, string elementID, string bgColor)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}ElementBackgroundColorMismatch", elementID);
+
+            OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(elementID));
+            if (element.GetCssValue("background-color") == bgColor)
+            {
+                return wBrowser;
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementID));
+            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementID));
+        }
+
+        /// <summary>
+        /// Checks the background color for the element
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID of the element</param>
         /// <param name="bgColor">the background color of the element</param>
         /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
@@ -1291,7 +1340,14 @@ namespace MSCOM.BusinessHelper
                 values.Add(title);
             }
 
-            return values;
+            if (values.Count > 0)
+            {
+                return values;
+            }
+            else
+            {
+                throw new DDA.DDAStepException("The values could not be fetched from the textbox.");
+            }
         }
     }
 }
