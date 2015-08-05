@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,UserToRoleTab,signInButton,url2,NameTextbox,Name,lookUpButton,userNameAlertBox,existMessage,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,userToRoleTab,cred_sign_in_button,https://opxrmtmain.azurewebsites.net/Home/Associate,txtUserSearchUR,abcd,btnLookupUR,txtUserSearchUR-AlertLine,User does not exists,Log off,

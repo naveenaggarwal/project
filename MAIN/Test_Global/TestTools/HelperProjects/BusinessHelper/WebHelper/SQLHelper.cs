@@ -74,7 +74,7 @@ namespace MSCOM.BusinessHelper
 
         }
 
-        public static List<string[]> RunQueryAndCompare(string query, object dataValues)
+        public static List<string[]> RunQueryAndCompare(string query, List<string> dataValues)
         {
             var connString = String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};", ServerName, DatabaseName, UserName, Password);
 
@@ -235,15 +235,14 @@ namespace MSCOM.BusinessHelper
         /// <param name="dbData">SQL query result</param>
         /// <param name="dataValues">data retrieved from the textbox</param>
         /// <returns>True if data is enabled. Else returns false.</returns>
-        public static bool IsDataEnabledInDatabase(List<string[]> dbData, object dataValues)
+        public static bool IsDataEnabledInDatabase(List<string[]> dbData, List<string> dataValues)
         {
-            List<string[]> val = (List<string[]>)dataValues;
             int n = 0;
             for (int i = 0; i < dbData.Count; i++ )
             {
-                for (int j = 0; j < val.Count; j++)
+                for (int j = 0; j < dataValues.Count; j++)
                 {
-                    if (dbData[i][0].Equals(val[j][0]))
+                    if (dbData[i][0].Equals(dataValues[j]))
                     {
                         n++;
                     }

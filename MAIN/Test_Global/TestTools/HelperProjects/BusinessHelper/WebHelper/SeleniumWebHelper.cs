@@ -1329,15 +1329,14 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <returns>the values as a list</returns>
-        public static List<string[]> GetTextboxValues(object browser)
+        public static List<string> GetTextboxValues(object browser)
         {
-            List<string[]> values = new List<string[]>();
+            List<string> values = new List<string>();
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
 
             foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.ClassName("select2-selection__choice")))
             {
-                string[] title = {elementSet.GetAttribute("title")};
-                values.Add(title);
+                values.Add(elementSet.GetAttribute("title"));
             }
 
             if (values.Count > 0)
@@ -1348,6 +1347,52 @@ namespace MSCOM.BusinessHelper
             {
                 throw new DDA.DDAStepException("The values could not be fetched from the textbox.");
             }
+        }
+
+        /// <summary>
+        /// Checks if the 'Select' drop down menu data is sorted
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="selectID">ID of the 'Select' control</param>
+        /// <returns>Return true if the data is sorted. Throws DDAStepException otherwise.</returns>
+        public static bool IsDataSorted(object browser, string selectID)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}DataIsNotSorted", selectID);
+            int n = 0;
+            List<string> dropDownData = new List<string>();
+            
+            OpenQA.Selenium.IWebElement elementSet = wBrowser.FindElement(By.Id(selectID));
+            OpenQA.Selenium.Support.UI.SelectElement elementSelect = new OpenQA.Selenium.Support.UI.SelectElement(elementSet);
+            IList<IWebElement> selectOptions = elementSelect.Options;
+
+            foreach (IWebElement element in selectOptions)
+            {
+                if (element.Text != null)
+                {
+                    dropDownData.Add(element.Text);
+                }
+            }
+
+            List<string> sortedDropDownData = new List<string>(dropDownData);
+            dropDownData.Sort();
+            for (int i = 0; i < dropDownData.Count; i++)
+            {
+                if (sortedDropDownData[i].Equals(dropDownData[i]))
+                {
+                    n++;
+                }
+            }
+
+            if (n == sortedDropDownData.Count)
+            {
+                return true;
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' data was not sorted in the provided browser.", selectID));
+            throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' data was not sorted in drop down menu in the provided browser.", selectID));
         }
     }
 }

@@ -473,7 +473,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.GetTextboxValues(results[0]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
-                    results.Add(SQLHelper.RunQueryAndCompare(getEnabledRolesForAgreement, (object)results[9]));
+                    results.Add(SQLHelper.RunQueryAndCompare(getEnabledRolesForAgreement, (List<string>)results[9]));
                     results.Clear();
                 }
                 catch (DDAIterationException e)
