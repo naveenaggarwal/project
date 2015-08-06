@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,RoleTab,url2,RoleTab1,bgColor,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,//*[@id="tile-role"]/a/span[1],https://opxrmtmain.azurewebsites.net/Home/Update?tab=roleTab,roleTab,transparent,Log off,

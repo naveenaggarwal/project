@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,RMTTab,url2,RMTTab1,bgColor,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,//*[@id="tile-agreement"]/a/span[1],https://opxrmtmain.azurewebsites.net/Home/Update?tab=agreementTab,agreementTab,transparent,Log off,

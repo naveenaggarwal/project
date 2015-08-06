@@ -170,6 +170,19 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Waits for the browser implicitly
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <returns>Returns browser as an object after waiting implicitly for the time specified.</returns>
+        public static object ImplicitlyWait(object browser)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            wBrowser.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
+
+            return wBrowser;
+        }
+
+        /// <summary>
         /// Will wait for the browser to load a page as long as it does not Time Out as configured in Automation Settings
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
@@ -549,6 +562,45 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Formats the text associated with the control and returns it
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="id">ID of the control</param>
+        /// <returns>Formatted text associated with the control. Returns NULL otherwise.</returns>
+        public static string GetElementText(object browser, string id)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("UnableToFindElement{0}", id);
+
+            try
+            { 
+                OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(id));
+                if (element != null)
+                {
+                    string elementText = element.Text;
+                    int i = elementText.IndexOf('(');
+                    elementText = elementText.Remove(i, 1);
+                    i = elementText.IndexOf(')');
+                    elementText = elementText.Remove(i, 1);
+                    return elementText;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (InvalidElementStateException)
+            {
+                return null;
+            }
+            catch (NoSuchElementException)
+            {
+                return null;
+            }
+
+        }
+
+        /// <summary>
         /// Checks for the labels
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
@@ -597,65 +649,6 @@ namespace MSCOM.BusinessHelper
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element with id '{0}' was not found in the provided browser.", elementId));
                 throw new MSCOM.DDA.DDAIterationException(string.Format("The element id '{0}' was not found in the provided browser.", elementId));
-            }
-
-            return wBrowser;
-        }
-
-        /// <summary>
-        /// Checks the element is not rendered in the browser with particular style value
-        /// </summary>
-        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
-        /// <param name="id">the id of the element which needs to be checked</param>
-        /// <param name="value">the values of the "Style" attirbute of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
-        public static object ElementIsNotRendered(object browser, string id, string value = "")
-        {
-            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
-            string fileName = string.Format("{0}ElementIsRendered", id);
-            OpenQA.Selenium.IWebElement element = (OpenQA.Selenium.IWebElement)GetRenderedElement(browser, id);
-
-            if (element == null)
-            {
-                return wBrowser;
-            }
-            else if (element.Text == value || element.GetAttribute("style") == value)
-            {
-                return wBrowser;
-            }
-            GetPageScreenShot(wBrowser, fileName);
-            GetPageSource(wBrowser, fileName);
-            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element with id '{0}' was found in the provided browser.", id));
-            throw new DDA.DDAStepException(string.Format("Able to find element '{0}' in provided browser.", id));
-        }
-
-        /// <summary>
-        /// Checks the element is rendered in the browser with particular style value
-        /// </summary>
-        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
-        /// <param name="id">the id of the element which needs to be checked</param>
-        /// <param name="value">the value of the "style" attribute of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
-        public static object ElementIsRendered(object browser, string id, string value = "")
-        {
-            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
-            string fileName = string.Format("{0}ElementIsNotRendered", id);
-            OpenQA.Selenium.IWebElement element = (OpenQA.Selenium.IWebElement)GetRenderedElement(browser, id);
-
-            if (element == null)
-            {
-                GetPageScreenShot(wBrowser, fileName);
-                GetPageSource(wBrowser, fileName);
-                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element with id '{0}' was not found in the provided browser.", id));
-                throw new DDA.DDAStepException(string.Format("Unable to find element '{0}' in provided browser.", id));
-            }
-            else if (element.Text == value || element.GetAttribute("style") == value)
-            {
-                return wBrowser;
-            }
-            else if (element != null)
-            {
-                return wBrowser;
             }
 
             return wBrowser;
@@ -1082,7 +1075,7 @@ namespace MSCOM.BusinessHelper
             string fileName = string.Format("UnableToFindElementByXPath");
             OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(id));
 
-            if (element.Text == text)
+            if (element.Text == text || element.Text.Contains(text))
             {
                 return wBrowser;
             }
@@ -1106,7 +1099,7 @@ namespace MSCOM.BusinessHelper
             string fileName = string.Format("UnableToFindElementByXPath");
             OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.XPath(xpath));
 
-            if (element.Text == text)
+            if (element.Text == text || element.GetAttribute("innerText").Contains(text) || element.Text.Contains(text))
             {
                 return wBrowser;
             }
@@ -1394,5 +1387,113 @@ namespace MSCOM.BusinessHelper
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' data was not sorted in the provided browser.", selectID));
             throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' data was not sorted in drop down menu in the provided browser.", selectID));
         }
+
+        /// <summary>
+        /// Checks if a particualr checkbox is deselected
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementText">text associated with the textbox</param>
+        /// <returns>True if the checkbox is deselected. Throws DDAStepException otherwise.</returns>
+        public static bool IsCheckboxDeselected(object browser, string elementText)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}CheckboxIsSelected", elementText);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("li")))
+            {
+                if (elementSet.GetAttribute("innerText").Contains(elementText))
+                {
+                    if (elementSet.GetAttribute("className") == "multiselect-item multiselect-all")
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' checkbox was selected in the provided browser.", elementText));
+            throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' checkbox was selected in the provided browser.", elementText));
+        }
+
+        /// <summary>
+        /// Checks the color of a text
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementText">text associated with the element</param>
+        /// <param name="Color">the background color of the text</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckTextBackgroundColorIs(object browser, string elementText, string Color)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}TextColorMismatch", elementText);
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("option")))
+            {
+                if (element.Text == elementText)
+                {
+                    if (element.GetCssValue("color") == Color)
+                    {
+                        return wBrowser;
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementText));
+            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
+        }
+
+        /// <summary>
+        /// Checks the text of dropdown value
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementText">text associated with the element</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckDropDownValueText(object browser, string elementText)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}TextNotFiltered", elementText);
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("option")))
+            {
+                if (element.Text == elementText)
+                {
+                    return wBrowser;
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementText));
+            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
+        }
+
+        /// <summary>
+        /// Checking the Logo
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="value">text associated with the image element</param>
+        /// <returns>Browser as an object. Throws DDAStepExecption otherwise.</returns>
+        public static object CheckImageLogos(object browser, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}ImageMismatch", value);
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("img")))
+            {
+                if (element.GetAttribute("innerText") == value || element.Text == value || element.GetAttribute("Title") == value)
+                {
+                    return wBrowser;
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", value));
+            throw new DDA.DDAStepException(string.Format("The element '{0}' not rendered in the provided browser.", value));
+        }
+
     }
 }

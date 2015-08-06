@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,userToRoleTab,url2,NameTextbox,Name,RMTAgreementDropDown,RMTAgreementCheckbox,lookUpButton,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,userToRoleTab,https://opxrmtmain.azurewebsites.net/Home/Associate,txtUserSearchUR,DellTestUser_1@DellAAD.onmicrosoft.com,None selected,Select all,btnLookupUR,Log off,

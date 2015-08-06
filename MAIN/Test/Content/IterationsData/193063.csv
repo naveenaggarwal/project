@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,UserToRoleTab,signInButton,url2,NameTextbox,Name,lookUpButton,AssignedRolesTextbox,AssignedRolesName,RemoveButton,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,userToRoleTab,cred_sign_in_button,https://opxrmtmain.azurewebsites.net/Home/Associate,txtUserSearchUR,DellTestUser_1@DellAAD.onmicrosoft.com,btnLookupUR,selectedroles,ECE_ODM_Basic,btn-arrow-remove,Log off,

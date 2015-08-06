@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,MSLogo,associateTab,AddUpdateTab,url2,url3,logoXPath,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,Microsoft,Associate,Add/Update,https://opxrmtmain.azurewebsites.net/Home/Update,https://opxrmtmain.azurewebsites.net/Home/Associate,/html/body/div[1]/div[1]/div/div[1]/a/img,Log off,
