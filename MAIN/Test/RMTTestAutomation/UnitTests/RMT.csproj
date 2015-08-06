@@ -83,6 +83,7 @@
     <Compile Include="MapUserToRMTAgreement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MapUserToRoles.cs" />
+    <Compile Include="WelcomePage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
