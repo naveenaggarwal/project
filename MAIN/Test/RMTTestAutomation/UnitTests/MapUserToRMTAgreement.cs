@@ -586,7 +586,7 @@ namespace RMT.UnitTests
         [TestMethod]
         [WorkItem(193085)]
         [TestProperty("TestCaseId", "193085")]
-        public void VerifyLookUpButtonFunctionalityOnEnteringText()
+        public void VerifyLookUpButtonFunctionalityForAnExistingUser()
         {
             string error = null;
             int iteration = 0;

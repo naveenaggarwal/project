@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,addUpdateTab,roleTab,rolesNameTextbox,roleDescriptionTextBox,roleStatusDropDown,lookUpButton,SaveBtn,roleDescription,roleStatus,rolesTile,yesButton,OKButton,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,Add/Update,roleTab,roleNameTxt-role,roleDescription,roleStatus,roleNameLookupBtn-role,roleSave,Test Description,Enabled,badge-role,Yes,OK,Log off,

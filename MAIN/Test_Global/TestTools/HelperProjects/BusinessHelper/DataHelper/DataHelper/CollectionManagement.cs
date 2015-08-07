@@ -10,6 +10,21 @@ namespace MSCOM.BusinessHelper
     public class CollectionHelper
     {
         /// <summary>
+        /// Generates a string concatenated with a random number
+        /// </summary>
+        /// <returns>String concatenated with a random number</returns>
+        public static string GenerateRandomString()
+        {
+
+            Random r = new Random();
+            int n = r.Next();
+            string rNo = n.ToString();
+            string name = "test" + rNo;
+
+            return name;
+        }
+
+        /// <summary>
         /// Given a list of string[], (2 Dimensional Data Structure like from CSV) and a location of a CSV this method will validate that the data in minimumExpectations also exists in 'actual'
         /// </summary>
         /// <param name="actual">Data set to be validated against minimum requirements</param>

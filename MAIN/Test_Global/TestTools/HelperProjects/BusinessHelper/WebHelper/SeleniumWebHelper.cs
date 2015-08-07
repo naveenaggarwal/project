@@ -1495,5 +1495,34 @@ namespace MSCOM.BusinessHelper
             throw new DDA.DDAStepException(string.Format("The element '{0}' not rendered in the provided browser.", value));
         }
 
+        /// <summary>
+        /// Checks the color of a text by using anchor tag
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementText">text associated with the element</param>
+        /// <param name="Color">the background color of the text</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckTextBackgroundColorByAnchorTag(object browser, string elementText, string Color)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}TextColorMismatch", elementText);
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("a")))
+            {
+                if (element.Text == elementText)
+                {
+                    if (element.GetCssValue("color") == Color)
+                    {
+                        return wBrowser;
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementText));
+            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
+        }
+
     }
 }
