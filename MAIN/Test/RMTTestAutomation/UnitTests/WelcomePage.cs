@@ -682,10 +682,11 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.GetElementText(results[0], i["rolesTile"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["roleTab"]));
                     results.Add(CollectionHelper.GenerateRandomString());
-                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["rolesNameTextbox"], (string)results[7]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["rolesNameTextbox"], (string)results[8]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleDescriptionTextBox"], i["roleDescription"]));
                     results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleStatusDropDown"], i["roleStatus"]));
@@ -694,7 +695,168 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
                     results.Add(SQLHelper.RunQuery(getEnabledRolesCountQuery, getTotalRolesCountQuery));
                     results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url1"]));
-                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["rolesTile"], (string)results[15]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["rolesTile"], (string)results[16]));
+                    results.Add(SeleniumWebHelper.IsTextDifferent(results[0], i["rolesTile"], (string)results[5]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(200151)]
+        [TestProperty("TestCaseId", "200151")]
+        public void VerifyRolesCountInTilesOnDisablingARole()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["roleTab"]));
+                    results.Add(CollectionHelper.GenerateRandomString());
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["rolesNameTextbox"], (string)results[7]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleDescriptionTextBox"], i["roleDescription"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleStatusDropDown"], i["roleStatus"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url1"]));
+                    results.Add(SeleniumWebHelper.GetElementText(results[0], i["rolesTile"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["roleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["rolesNameTextbox"], (string)results[7]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["editButton"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleStatusDropDown"], i["newRoleStatus"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SQLHelper.RunQuery(getEnabledRolesCountQuery, getTotalRolesCountQuery));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["rolesTile"], (string)results[26]));
+                    results.Add(SeleniumWebHelper.IsTextDifferent(results[0], i["rolesTile"], (string)results[16]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(200167)]
+        [TestProperty("TestCaseId", "200167")]
+        public void VerifyRolesCountInTilesOnEnablingARole()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["roleTab"]));
+                    results.Add(CollectionHelper.GenerateRandomString());
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["rolesNameTextbox"], (string)results[7]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleDescriptionTextBox"], i["roleDescription"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleStatusDropDown"], i["roleStatus"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url1"]));
+                    results.Add(SeleniumWebHelper.GetElementText(results[0], i["rolesTile"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["roleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["rolesNameTextbox"], (string)results[7]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["editButton"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleStatusDropDown"], i["newRoleStatus"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SQLHelper.RunQuery(getEnabledRolesCountQuery, getTotalRolesCountQuery));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["rolesTile"], (string)results[26]));
+                    results.Add(SeleniumWebHelper.IsTextDifferent(results[0], i["rolesTile"], (string)results[16]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(202087)]
+        [TestProperty("TestCaseId", "202087")]
+        public void VerifyRMTFavIconAndBrowserTitle()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.IsFavIconRendered(results[4]));
+                    results.Add(SeleniumWebHelper.CheckBrowserTitle(results[4], i["homePageTitle"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.IsFavIconRendered(results[7]));
+                    results.Add(SeleniumWebHelper.CheckBrowserTitle(results[7], i["addUpdatePageTitle"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["associateTab"]));
+                    results.Add(SeleniumWebHelper.IsFavIconRendered(results[10]));
+                    results.Add(SeleniumWebHelper.CheckBrowserTitle(results[10], i["associatePageTitle"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();

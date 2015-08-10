@@ -20,8 +20,8 @@ namespace RMT.UnitTests
 
         #region SQLQueries
 
-        string mapRoleToRMTAgreementQuery = "SELECT Role.roleName FROM AgreementRole JOIN Role ON AgreementRole.roleID = Role.roleID JOIN Agreement ON Agreement.agreementID = AgreementRole.agreementID WHERE agreementName = 'distdellchina'";
-        string getEnabledRolesForAgreement = "SELECT Role.roleName FROM AgreementRole JOIN Role ON AgreementRole.roleID = Role.roleID JOIN Agreement ON Agreement.agreementID = AgreementRole.agreementID WHERE agreementName = 'distdellchina' AND Role.statusID = 1";
+        string mapRoleToRMTAgreementQuery = "SELECT Role.roleName FROM AgreementRole JOIN Role ON AgreementRole.roleID = Role.roleID JOIN Agreement ON Agreement.agreementID = AgreementRole.agreementID WHERE agreementName = 'oemsonydadc'";
+        string getEnabledRolesForAgreement = "SELECT Role.roleName FROM AgreementRole JOIN Role ON AgreementRole.roleID = Role.roleID JOIN Agreement ON Agreement.agreementID = AgreementRole.agreementID WHERE agreementName = 'oemsonydadc' AND Role.statusID = 1";
 
         #endregion
 
@@ -685,6 +685,90 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["RMTAgreementTextbox"], i["randomName"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["RMTAgreementNameAlertBox"], i["notFoundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(202059)]
+        [TestProperty("TestCaseId", "202059")]
+        public void VerifyLookUpButtonFunctionalityForADisabledRMTAgreement()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["RMTAgreementToRoleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["RMTAgreementTextbox"], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["RMTAgreementNameAlertBox"], i["disabledMessage"]));
+                    results.Add(SeleniumWebHelper.IsControlNotEmptyByXPath(results[0], i["rolesTextbox"]));
+                    results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["clearButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(202060)]
+        [TestProperty("TestCaseId", "202060")]
+        public void VerifyLookUpButtonFunctionalityForAnExpiredRMTAgreement()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["RMTAgreementToRoleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["RMTAgreementTextbox"], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["RMTAgreementNameAlertBox"], i["expiredMessage"]));
+                    results.Add(SeleniumWebHelper.IsControlNotEmptyByXPath(results[0], i["rolesTextbox"]));
+                    results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ElementIsEnabled(results[0], i["clearButton"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();

@@ -446,9 +446,9 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementTextbox"]));
                     results.Add(SeleniumWebHelper.ClickOnOrderedListElement(results[0], i["agreementsDropDown"], i["agreementName"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
-                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
                     //results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["alertPopUp"], i["text1"]));
-                    //results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["OKButton"]));
                     results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["NameTextbox"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));

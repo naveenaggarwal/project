@@ -16,6 +16,8 @@ namespace RMT.UnitTests
 
         string getRoleDetailsQuery = "SELECT [dbo].[Role].roleDescription, [dbo].[Status].statusName FROM [dbo].[Role] JOIN [dbo].[Status] ON [dbo].[Role].statusID = [dbo].[Status].statusID WHERE [dbo].[Role].roleName = 'OCD_Pricing'";
 
+        string getNewRoleDetailsQuery = "SELECT [dbo].[Role].roleName, [dbo].[Role].roleDescription, [dbo].[Status].statusName FROM [dbo].[Role] JOIN [dbo].[Status] ON [dbo].[Role].statusID = [dbo].[Status].statusID WHERE [dbo].[Role].roleName LIKE 'test%'";
+
         #endregion
 
         #region Attributes
@@ -339,9 +341,108 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleTextbox"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Add(SQLHelper.RunQueryAndCompareIfDataIsUpdated(getRoleDetailsQuery, i["roleDescription"], i["roleStatus"]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(201380)]
+        [TestProperty("TestCaseId", "201380")]
+        public void VerifyNewRoleWithEnabledStatusIsCreated()
+        {
+            string roleName = CollectionHelper.GenerateRandomString();
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["roleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleTextbox"], roleName));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleDescriptionTextbox"], i["roleDescription"]));
+                    results.Add(SeleniumWebHelper.CheckElementIsNotRendered(results[0], i["agreementTile"]));
+                    results.Add(SeleniumWebHelper.CheckElementIsNotRendered(results[0], i["userTile"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleStatusDropDown"], i["roleStatus"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleTextbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompareIfDataIsUpdated(getNewRoleDetailsQuery, roleName, i["roleDescription"], i["roleStatus"]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(201382)]
+        [TestProperty("TestCaseId", "201382")]
+        public void VerifyNewRoleWithDisabledStatusIsCreated()
+        {
+            string roleName = CollectionHelper.GenerateRandomString();
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["roleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleTextbox"], roleName));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleDescriptionTextbox"], i["roleDescription"]));
+                    results.Add(SeleniumWebHelper.CheckElementIsNotRendered(results[0], i["agreementTile"]));
+                    results.Add(SeleniumWebHelper.CheckElementIsNotRendered(results[0], i["userTile"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleStatusDropDown"], i["roleStatus"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleTextbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompareIfDataIsUpdated(getNewRoleDetailsQuery, roleName, i["roleDescription"], i["roleStatus"]));
                     results.Clear();
                 }
                 catch (DDAIterationException e)

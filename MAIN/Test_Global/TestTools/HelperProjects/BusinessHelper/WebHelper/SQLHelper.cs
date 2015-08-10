@@ -408,6 +408,69 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Helper method to run a query and compare the results
+        /// </summary>
+        /// <param name="query">String containing the query.</param>
+        /// <param name="value1">data which is added through UI</param>
+        /// <param name="value2">data which is added through UI</param>
+        /// <param name="value3">data which is added through UI</param>
+        /// <returns>Results of this query.</returns>
+        public static List<string[]> RunQueryAndCompareIfDataIsUpdated(string query, string value1, string value2, string value3)
+        {
+            var connString = String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};", ServerName, DatabaseName, UserName, Password);
+
+            List<string> resultSetRow = new List<string>();
+            List<string[]> result = new List<string[]>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                resultSetRow.Add(reader.GetName(i).ToString());
+                            }
+
+                            result.Add(resultSetRow.ToArray());
+                            resultSetRow.Clear();
+
+                            while (reader.Read())
+                            {
+                                Object[] values = new Object[reader.FieldCount];
+                                reader.GetValues(values);
+                                foreach (Object value in values)
+                                {
+                                    resultSetRow.Add(value.ToString());
+                                }
+                                result.Add(resultSetRow.ToArray());
+                                resultSetRow.Clear();
+                            }
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new DDA.DDAIterationException(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+            }
+
+            if (IsDataUpdatedInDatabase(result, value1, value2, value3))
+            {
+                return result;
+            }
+            else
+            {
+                throw new DDA.DDAIterationException(string.Format("The values '{0}' and '{1}' were not updated in the database.", value1, value2));
+            }
+        }
+
+        /// <summary>
         /// Concatenates the results of the SQL queries in a desired format
         /// </summary>
         /// <param name="value1">Result of the first SQL query</param>
@@ -431,11 +494,7 @@ namespace MSCOM.BusinessHelper
             int count = 0;
             for (int i = 0; i < dbData.Count; i++)
             {
-                if (dbData[i][0].Equals(data1))
-                {
-                    count++;
-                }
-                else if (dbData[i][0].Equals(data2))
+                if (dbData[i][0].Equals(data1) || dbData[i][0].Equals(data2))
                 {
                     count++;
                 }
@@ -467,13 +526,9 @@ namespace MSCOM.BusinessHelper
             int count = 0;
             for (int i = 0; i < dbData.Count; i++)
             {
-                for (int j = 0; j < dbData.Count; j++)
+                for (int j = 0; j < 2; j++)
                 {
-                    if (dbData[i][j].Equals(data1))
-                    {
-                        count++;
-                    }
-                    else if (dbData[i][j].Equals(data2))
+                    if (dbData[i][j].Equals(data1) || dbData[i][j].Equals(data2))
                     {
                         count++;
                     }
@@ -485,6 +540,42 @@ namespace MSCOM.BusinessHelper
             }
 
             if (count == 2)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Compares the results returned from the query with the values provided
+        /// </summary>
+        /// <param name="dbData">SQL query result</param>
+        /// <param name="data1">data which is added through UI</param>
+        /// <param name="data2">data which is added through UI</param>
+        /// <param name="data3">data which is added through UI</param>
+        /// <returns>True if the data is updated. Else returns false.</returns>
+        private static bool IsDataUpdatedInDatabase(List<string[]> dbData, string data1, string data2, string data3)
+        {
+            int count = 0;
+            for (int i = 0; i < dbData.Count; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (dbData[i][j].Equals(data1) || dbData[i][j].Equals(data2) || dbData[i][j].Equals(data3))
+                    {
+                        count++;
+                    }
+                    else if (count == 3)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            if (count == 3)
             {
                 return true;
             }

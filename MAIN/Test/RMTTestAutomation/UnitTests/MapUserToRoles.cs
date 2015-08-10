@@ -22,7 +22,7 @@ namespace RMT.UnitTests
         #region SQLQueries
 
         string getAssignedRolesCountQuery = "SELECT COUNT(*) FROM [dbo].[UserRole] WHERE userID = 1";
-        string getAvailableRolesCountQuery = "SELECT COUNT(*) FROM [dbo].[Role] JOIN [dbo].[AgreementRole] ON [dbo].[Role].roleID = [dbo].[AgreementRole].roleID WHERE agreementID = 3";
+        string getAvailableRolesCountQuery = "SELECT COUNT(*) FROM [dbo].[AgreementRole] WHERE agreementID = 3 AND [dbo].[AgreementRole].roleID NOT IN (SELECT roleID FROM [dbo].[UserRole] WHERE userID = 1)";
         string mapRoleToUserQuery = "SELECT [dbo].[Role].roleName FROM [dbo].[Role] JOIN [dbo].[UserRole] ON [dbo].[Role].roleID = [dbo].[UserRole].roleID JOIN [dbo].[User] ON [dbo].[User].userID = [dbo].[UserRole].userID WHERE [dbo].[User].userName = 'DellTestUser_35@DellAAD.onmicrosoft.com'";
 
         #endregion
@@ -491,7 +491,6 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
                     results.Add(SeleniumWebHelper.IsDataSorted(results[0], i["availableRoles"]));
                     results.Add(SeleniumWebHelper.IsDataSorted(results[0], i["assignedRoles"]));
-                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleDropDown"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
@@ -532,8 +531,8 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
                     results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
-                    results.Add(SeleniumWebHelper.GetElementText(results[0], i["availableRolesCount"]));
-                    results.Add(SeleniumWebHelper.GetElementText(results[0], i["assignedRolesCount"]));
+                    results.Add(SeleniumWebHelper.GetElementTextAfterFormat(results[0], i["availableRolesCount"]));
+                    results.Add(SeleniumWebHelper.GetElementTextAfterFormat(results[0], i["assignedRolesCount"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Add(SQLHelper.RunQueryAndCompare(getAvailableRolesCountQuery, (string)results[11]));
@@ -698,7 +697,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
-                    //results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
                     //results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["alertPopUp"], i["text1"]));
                     results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["NameTextbox"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));

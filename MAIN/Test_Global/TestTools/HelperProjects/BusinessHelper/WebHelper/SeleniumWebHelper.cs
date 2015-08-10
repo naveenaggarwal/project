@@ -299,6 +299,41 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Checks if an element is not rendered in the page
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="id">id associated with the control</param>
+        /// <returns>Returns browser as an object.</returns>
+        public static object CheckElementIsNotRendered(object browser, string id)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            
+            try
+            {
+                OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(id));
+
+                if (element == null)
+                {
+                    return wBrowser;
+                }
+            }
+            catch (NoSuchElementException)
+            {
+                return wBrowser;
+            }
+            catch (ElementNotVisibleException)
+            {
+                return wBrowser;
+            }
+            catch (InvalidElementStateException)
+            {
+                return wBrowser;
+            }
+
+            return wBrowser;
+        }
+
+        /// <summary>
         /// Checks if cached credentials are rendered
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
@@ -538,27 +573,37 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
-        /// Gets an element based on its id
+        /// Returns the text associated with the control
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
-        /// <param name="id">The value based on which the element is fetched</param>
-        /// <returns>Element as an object if found. NULL otherwise.</returns>
-        private static object GetRenderedElement(object browser, string id)
+        /// <param name="id">ID of the control</param>
+        /// <returns>text associated with the control. Returns NULL otherwise.</returns>
+        public static string GetElementText(object browser, string id)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
-            string fileName = string.Format("CannotFindElement{0}", id);
+            string fileName = string.Format("UnableToFindElement{0}", id);
+
             try
             {
-                return wBrowser.FindElement(OpenQA.Selenium.By.Id(id));
+                OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(id));
+                if (element != null)
+                {
+                    return element.Text;
+                }
+                else
+                {
+                    return null;
+                }
             }
-            catch
+            catch (InvalidElementStateException)
             {
-                GetPageScreenShot(wBrowser, fileName);
-                GetPageSource(wBrowser, fileName);
-                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element with id '{0}' was not found in the provided browser.", id));
                 return null;
-                throw new DDA.DDAStepException(string.Format("Unable to find element with id '{0}' in provided browser.", id));
             }
+            catch (NoSuchElementException)
+            {
+                return null;
+            }
+
         }
 
         /// <summary>
@@ -567,7 +612,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="id">ID of the control</param>
         /// <returns>Formatted text associated with the control. Returns NULL otherwise.</returns>
-        public static string GetElementText(object browser, string id)
+        public static string GetElementTextAfterFormat(object browser, string id)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
             string fileName = string.Format("UnableToFindElement{0}", id);
@@ -1329,7 +1374,10 @@ namespace MSCOM.BusinessHelper
 
             foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.ClassName("select2-selection__choice")))
             {
-                values.Add(elementSet.GetAttribute("title"));
+                if (!(elementSet.GetAttribute("title").Contains("(Disabled)")))
+                {
+                    values.Add(elementSet.GetAttribute("title"));
+                }
             }
 
             if (values.Count > 0)
@@ -1466,8 +1514,8 @@ namespace MSCOM.BusinessHelper
 
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
-            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementText));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' is not filtered in the provided browser.", elementText));
+            throw new DDA.DDAStepException(string.Format("The element '{0}' is not filtered in the provided browser.", elementText));
         }
 
         /// <summary>
@@ -1524,5 +1572,76 @@ namespace MSCOM.BusinessHelper
             throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
         }
 
+        /// <summary>
+        /// Checks if the text assciated with a control is similar to the input parameter
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementId">ID associated with the control</param>
+        /// <param name="text">text to be compared</param>
+        /// <returns>True if the text is different. Returns false otherwise.</returns>
+        public static bool IsTextDifferent(object browser, string elementId, string text)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}TextIsSame", text);
+
+            OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(elementId));
+            if (element.Text != text)
+            {
+                return true;
+            }
+            else
+            {
+                GetPageScreenShot(wBrowser, fileName);
+                GetPageSource(wBrowser, fileName);
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The text '{0}' is same as the element text in the provided browser.", text));
+                throw new DDA.DDAStepException("The text is same in the provided browser.");
+            }
+        }
+
+        /// <summary>
+        /// Checks the browser title
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="browserTitle">title of the browser window</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckBrowserTitle(object browser, string browserTitle)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("BrowserTitleIsNot{0}", browserTitle);
+
+            if (wBrowser.Title == browserTitle || wBrowser.Title.Contains(browserTitle))
+            {
+                return wBrowser;
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The browser title is not '{0}'.", browserTitle));
+            throw new DDA.DDAStepException(string.Format("The window title is not '{0}' in the provided browser.", browserTitle));
+        }
+        
+        /// <summary>
+        /// Checks if the Portal faviocn is rendered
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <returns>True if the favicon is rendered. Throws DDAStepException otherwise.</returns>
+        public static bool IsFavIconRendered (object browser)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = "FavIconIsNotRendered";
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("link")))
+            {
+                if (element.GetAttribute("href").Contains("Favicon.ico"))
+                {
+                    return true;
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The favicon is not rendered for the portal."));
+            throw new DDA.DDAStepException("The favicon for the portal is not rendered in the provided browser.");
+        }
     }
 }
