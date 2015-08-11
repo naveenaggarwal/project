@@ -1643,5 +1643,102 @@ namespace MSCOM.BusinessHelper
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The favicon is not rendered for the portal."));
             throw new DDA.DDAStepException("The favicon for the portal is not rendered in the provided browser.");
         }
+
+        /// <summary>
+        /// Checks if the text associated with a control exceeds the specified limit
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementID">ID of the control</param>
+        /// <param name="count">maximum number of characters that are allowed in the control</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckControlCharactersCount(object browser, string elementID, string count)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}ControlCharacterCountExceeds", elementID);
+            
+            OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(elementID));
+            string elementText = element.Text;
+
+            if (elementText.Length.ToString() == count)
+            {
+                return wBrowser;
+            }
+            else
+            {
+                GetPageScreenShot(wBrowser, fileName);
+                GetPageSource(wBrowser, fileName);
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The text in '{0}' textbox exceeds '{1}' characters.", elementID, count));
+                throw new DDA.DDAStepException(string.Format("The text in '{0}' textbox exceeds '{1}' characters.", elementID, count));
+            }
+        }
+
+        /// <summary>
+        /// Checks the number of auto-populated values
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckCountOfAutoPopulatedValues(object browser, string autopopulateId)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            int count = 0;
+            string fileName = "AutoPopulateContainsMoreThanTenValues";
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("ul")))
+            {
+                if (element.GetAttribute("id") == autopopulateId)
+                {
+                    foreach (OpenQA.Selenium.IWebElement elementSet in element.FindElements(By.TagName("li")))
+                    {
+                        if (elementSet.GetAttribute("id").Contains("ui-id-"))
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+            if (count <= 10)
+            {
+                return wBrowser;
+            }
+            else
+            {
+                GetPageScreenShot(wBrowser, fileName);
+                GetPageSource(wBrowser, fileName);
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": More than ten values are auto-populated."));
+                throw new DDA.DDAStepException("More than ten values are auto-populated in the provided browser.");
+            }
+        }
+
+        /// <summary>
+        /// Selects the specified value from the list of auto-populated values
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver wBrowser object</param>
+        /// <param name="text">value which needs to be selected</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object SelectAutoPopulateValue(object browser, string autopopulateId, string text)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("UnableToSelect{0}FromAutoPopulate", text);
+
+            foreach (OpenQA.Selenium.IWebElement element in wBrowser.FindElements(By.TagName("ul")))
+            {
+                if (element.GetAttribute("id") == autopopulateId)
+                {
+                    foreach (OpenQA.Selenium.IWebElement elementSet in element.FindElements(By.TagName("li")))
+                    {
+                        if (elementSet.Text == text || elementSet.GetAttribute("innerText").Contains(text))
+                        {
+                            elementSet.Click();
+                            return wBrowser;
+                        }
+                    }
+                }
+            }
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' auto-populated value could not be selected.", text));
+            throw new DDA.DDAStepException(string.Format("The '{0}' auto-populated value could not be selected in the provided browser.", text));
+        }
+
     }
 }

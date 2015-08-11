@@ -15,6 +15,7 @@ namespace RMT.UnitTests
         #region Colors
 
         string blueColor = "rgba(9, 174, 237, 1)";
+        string tabBlueColor = "rgba(44, 185, 239, 1)";
 
         #endregion
 
@@ -569,11 +570,13 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["AddUpdateTab"]));
                     results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
                     results.Add(SeleniumWebHelper.CheckLinkBackgroundColorIsNot(results[0], i["AddUpdatehref"], i["bgColor"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[0], i["userTab"], tabBlueColor));
                     results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["RMTTabXpath"], i["RMTTab"]));
                     results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["AssociateXpath"], i["associateTab"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["associateTab"]));
                     results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url3"]));
                     results.Add(SeleniumWebHelper.CheckLinkBackgroundColorIsNot(results[0], i["Associatehref"], i["bgColor"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[0], i["agreementToRoleTab"], tabBlueColor));
                     results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["AddUpdateXpath"], i["AddUpdateTab"]));
                     results.Add(SeleniumWebHelper.CheckElementTextByXPath(results[0], i["RMTTabXpath"], i["RMTTab"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));

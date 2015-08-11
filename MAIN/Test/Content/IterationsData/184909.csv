@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,userToRMTAgreementTab,url2,nameTextbox,Name,userNamesAutoPopulateTextbox,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,userToAgreementTab,https://opxrmtmain.azurewebsites.net/Home/Associate,txtUserSearchUA,DellTestUser_1@DellAAD,ui-id-2,Log off,

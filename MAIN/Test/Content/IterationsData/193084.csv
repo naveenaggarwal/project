@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,userToRMTAgreementTab,url2,nameTextbox,Name,userNamesAutoPopulateTextbox,lookUpButton,userNameAlertBox,foundMessage,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,userToAgreementTab,https://opxrmtmain.azurewebsites.net/Home/Associate,txtUserSearchUA,DellTestUser_1@DellAAD.onmicrosoft.com,ui-id-2,btnLookupUA,txtUserSearchUA-AlertLine,User already exist.,Log off,

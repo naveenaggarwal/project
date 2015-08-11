@@ -161,6 +161,12 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleTextbox"]));
                     results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleDescriptionTextbox"], i["roleDescriptionDefaultText"]));
                     results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleStatusDropDown"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleTextbox"], i["newRoleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["roleErrorTextbox"], i["errorMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["clearButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementIsNotRendered(results[0], i["roleErrorTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleTextbox"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
