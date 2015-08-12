@@ -906,5 +906,52 @@ namespace RMT.UnitTests
             Assert.IsNull(error, error);
         }
 
+        [TestMethod]
+        [WorkItem(193082)]
+        [TestProperty("TestCaseId", "193082")]
+        public void VerifyOnlyEnabledRolesCanBeAssigned()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["RMTAgreementToRoleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["RMTAgreementTextbox"], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ImplicitlyWait(results[7]));
+                    results.Add(SeleniumWebHelper.GetElement(results[0], i["RMTAgreementsAutoPopulateTextbox"]));
+                    results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[0],i["RMTAgreementsAutoPopulateTextbox"], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["RMTAgreementNameAlertBox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["rolesTextbox"]));
+                    results.Add(SeleniumWebHelper.IsOrderedListElementDisabled(results[0], i["rolesDropDown"], i["disabledRoleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnOrderedListElement(results[0], i["rolesDropDown"], i["disabledRoleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnOrderedListElement(results[0], i["rolesDropDown"], i["enabledRoleName"]));
+                    results.Add(SeleniumWebHelper.CheckTextboxValues(results[0], i["disabledRoleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
     }
 }

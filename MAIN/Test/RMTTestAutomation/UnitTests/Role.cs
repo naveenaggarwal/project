@@ -133,6 +133,49 @@ namespace RMT.UnitTests
         }
 
         [TestMethod]
+        [WorkItem(200583)]
+        [TestProperty("TestCaseId", "200583")]
+        public void VerifyAutoPopulateFunctionality()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["roleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["roleNameTextbox"], i["roleName"]));
+                    results.Add(SeleniumWebHelper.ImplicitlyWait(results[7]));
+                    results.Add(SeleniumWebHelper.GetElement(results[0], i["roleNamesAutoPopulateTextbox"]));
+                    results.Add(SeleniumWebHelper.CheckCountOfAutoPopulatedValues(results[0], i["roleNamesAutoPopulateTextbox"]));
+                    results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[0], i["roleNamesAutoPopulateTextbox"], i["roleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["roleNameAlertBox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
         [WorkItem(200635)]
         [TestProperty("TestCaseId", "200635")]
         public void VerifyClearButtonFunctionality()

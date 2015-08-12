@@ -447,7 +447,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRoleTab"]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextboxId"], i["Name"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
-                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementsDropdown"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
                     results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["availableRoles"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
@@ -488,7 +488,8 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["NameTextbox"], i["Name"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
-                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxSelected(results[0], i["RMTAgreementName"]));
                     results.Add(SeleniumWebHelper.IsDataSorted(results[0], i["availableRoles"]));
                     results.Add(SeleniumWebHelper.IsDataSorted(results[0], i["assignedRoles"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
@@ -530,7 +531,8 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["NameTextbox"], i["Name"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
-                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxSelected(results[0], i["RMTAgreementName"]));
                     results.Add(SeleniumWebHelper.GetElementTextAfterFormat(results[0], i["availableRolesCount"]));
                     results.Add(SeleniumWebHelper.GetElementTextAfterFormat(results[0], i["assignedRolesCount"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
@@ -608,9 +610,10 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["NameTextbox"], i["Name"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
-                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxSelected(results[0], i["RMTAgreementName"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
-                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[0], i["roleDropDown"]));
+                    results.Add(SeleniumWebHelper.IsSelectControlEmptyById(results[0], i["roleDropDown"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
@@ -692,7 +695,8 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["NameTextbox"], i["Name"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
-                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxSelected(results[0], i["RMTAgreementName"]));
                     results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleDropDown"], i["roleName"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
@@ -739,7 +743,8 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["NameTextbox"], i["Name"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
-                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementCheckbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["RMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxSelected(results[0], i["RMTAgreementName"]));
                     results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["roleDropDown"], i["roleName"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
@@ -1047,6 +1052,116 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[0], i["userNamesAutoPopulateTextbox"], i["Name"]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
                     results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["userNameAlertBox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(193065)]
+        [TestProperty("TestCaseId", "193065")]
+        public void VerifyOnlyEnabledRMTAgreementsCanBeSelected()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRoleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["Name"]));
+                    results.Add(SeleniumWebHelper.ImplicitlyWait(results[7]));
+                    results.Add(SeleniumWebHelper.GetElement(results[0], i["userNamesAutoPopulateTextbox"]));
+                    results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[0], i["userNamesAutoPopulateTextbox"], i["Name"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["userNameAlertBox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxDisabled(results[0], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxDeselected(results[0], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["enabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxSelected(results[0], i["enabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(193067)]
+        [TestProperty("TestCaseId", "193067")]
+        public void VerifyOnlyEnabledRolesCanBeAssigned()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRoleTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["Name"]));
+                    results.Add(SeleniumWebHelper.ImplicitlyWait(results[7]));
+                    results.Add(SeleniumWebHelper.GetElement(results[0], i["userNamesAutoPopulateTextbox"]));
+                    results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[0], i["userNamesAutoPopulateTextbox"], i["Name"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["userNameAlertBox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["RMTAgreementDropDown"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxDisabled(results[0], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxDeselected(results[0], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnCheckbox(results[0], i["enabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.IsCheckboxSelected(results[0], i["enabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.CheckSelectOptionIsDisabled(results[0], i["availableRoles"], i["disabledAvailableRoleName"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["availableRoles"], i["disabledAvailableRoleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
+                    results.Add(SeleniumWebHelper.CheckSelectOptionDoesNotContain(results[0], i["assignedRoles"], i["disabledAvailableRoleName"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["assignedRoles"], i["disabledAssignedRoleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["revokeButton"]));
+                    results.Add(SeleniumWebHelper.CheckSelectOptionContains(results[0], i["availableRoles"], i["disabledAssignedRoleName"]));
+                    results.Add(SeleniumWebHelper.CheckSelectOptionIsDisabled(results[0], i["availableRoles"], i["disabledAssignedRoleName"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["availableRoles"], i["disabledAssignedRoleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
+                    results.Add(SeleniumWebHelper.CheckSelectOptionDoesNotContain(results[0], i["assignedRoles"], i["disabledAssignedRoleName"]));
+                    results.Add(SeleniumWebHelper.SelectDropdownValue(results[0], i["availableRoles"], i["enabledRoleName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addButton"]));
+                    results.Add(SeleniumWebHelper.CheckSelectOptionContains(results[0], i["assignedRoles"], i["enabledRoleName"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();

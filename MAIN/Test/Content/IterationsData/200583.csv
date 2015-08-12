@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,roleTab,url2,roleNameTextbox,roleName,roleNamesAutoPopulateTextbox,lookUpButton,roleNameAlertBox,foundMessage,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,roleTab,https://opxrmtmain.azurewebsites.net/Home/Update,roleNameTxt-role,OCD_Pricing,ui-id-1,roleNameLookupBtn-role,roleNameAlertLine-role,Role exists!,Log off,

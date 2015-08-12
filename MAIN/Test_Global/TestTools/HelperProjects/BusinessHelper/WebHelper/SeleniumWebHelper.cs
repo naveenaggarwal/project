@@ -398,23 +398,23 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
-        /// Clicks on an input element, which has no unique id
+        /// Clicks on an input element, which is a checkbox and has no unique id
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="value">title or text value associated with that input element</param>
         /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
-        public static object ClickOnInputElement(object browser, string value)
+        public static object ClickOnCheckbox(object browser, string value)
         {
             string fileName = "UnableToFindInputElement";
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
 
         TryBlock: try
             {
-                foreach (IWebElement elementSet in wBrowser.FindElements(By.TagName("input")))
+                foreach (IWebElement elementSet in wBrowser.FindElements(By.TagName("label")))
                 {
-                    if (elementSet.Text != null && elementSet.Text != "")
+                    if (elementSet.GetAttribute("class") == "checkbox")
                     {
-                        if (elementSet.GetAttribute("title") == value || elementSet.GetAttribute("text") == value || elementSet.GetAttribute("class") == value)
+                        if (elementSet.GetAttribute("title") == value || elementSet.GetAttribute("innerText") == value || elementSet.GetAttribute("class") == value || elementSet.Text == value)
                         {
                             elementSet.Click();
                             return wBrowser;
@@ -430,8 +430,8 @@ namespace MSCOM.BusinessHelper
 
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
-            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to find input element '{0}' in the provided browser.", value));
-            throw new DDA.DDAStepException(string.Format("Unable to find input element '{0}'. Unable to find element in provided browser.", value));
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to find checkbox element '{0}' in the provided browser.", value));
+            throw new DDA.DDAStepException(string.Format("Unable to find checkbox element '{0}'. Unable to find element in provided browser.", value));
         }
 
         /// <summary>
@@ -683,7 +683,7 @@ namespace MSCOM.BusinessHelper
             string fileName = string.Format("CannotFindTextBox{0}", elementId);
             try
             {
-                OpenQA.Selenium.IWebElement textElement = (OpenQA.Selenium.IWebElement)wBrowser.FindElement(OpenQA.Selenium.By.Id(elementId));
+                OpenQA.Selenium.IWebElement textElement = wBrowser.FindElement(OpenQA.Selenium.By.Id(elementId));
                 textElement.Clear();
                 textElement.SendKeys(value);
             }
@@ -917,11 +917,10 @@ namespace MSCOM.BusinessHelper
 
             catch (DDA.DDAStepException e)
             {
-                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Unable to click on WebpartEditDropdown. '{0}'", e.Message));
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Unable to check drop down menu values. '{0}'", e.Message));
                 return false;
             }
 
-            return wBrowser;
         }
 
         /// <summary>
@@ -1187,6 +1186,34 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Clicks if an OrderedList element is disbaled
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="id">ID of the element to be clicked</param>
+        /// <param name="value">Text value of the element</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object IsOrderedListElementDisabled(object browser, string id, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("OrderedListElement{0}IsNotDisabled", value);
+
+            OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(id));
+            foreach (OpenQA.Selenium.IWebElement reqElement in wBrowser.FindElements(By.TagName("li")))
+            {
+                if (reqElement.Text == value || reqElement.GetAttribute("innerText") == value)
+                {
+                    if (reqElement.GetAttribute("aria-disabled") == "true")
+                    return wBrowser;
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not disabled in the provided browser.", value));
+            throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' is not disabled in the provided browser.", value));
+        }
+
+        /// <summary>
         /// Switches the control to an alert popup and accepts the popup
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver browser</param>
@@ -1391,6 +1418,27 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Checks for a particular value in the textbox
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="value">Value which needs to be checked</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckTextboxValues(object browser, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.ClassName("select2-selection__choice")))
+            {
+                if (elementSet.GetAttribute("title").Contains(value))
+                {
+                    throw new DDA.DDAStepException(string.Format("The disabled value '{0}' was selected.", value));
+                }
+            }
+
+            return wBrowser;
+        }
+
+        /// <summary>
         /// Checks if the 'Select' drop down menu data is sorted
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
@@ -1437,6 +1485,63 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Checks if a particualr checkbox is disabled
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementText">text associated with the textbox</param>
+        /// <returns>True if the checkbox is disabled. Throws DDAStepException otherwise.</returns>
+        public static bool IsCheckboxDisabled(object browser, string elementText)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}CheckboxIsEnabled", elementText);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("label")))
+            {
+                if (elementSet.GetAttribute("innerText").Contains(elementText))
+                {
+                    OpenQA.Selenium.IWebElement element = elementSet.FindElement(By.TagName("input"));
+                    if (!(element.Enabled))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' checkbox was enabled in the provided browser.", elementText));
+            throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' checkbox was enabled in the provided browser.", elementText));
+        }
+
+        /// <summary>
+        /// Checks if a particualr checkbox is selected
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementText">text associated with the textbox</param>
+        /// <returns>True if the checkbox is selected. Throws DDAStepException otherwise.</returns>
+        public static bool IsCheckboxSelected(object browser, string elementText)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}CheckboxIsNotSelected", elementText);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("li")))
+            {
+                if (elementSet.GetAttribute("innerText").Contains(elementText))
+                {
+                    if (elementSet.GetAttribute("className").Contains("active"))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' checkbox was not selected in the provided browser.", elementText));
+            throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' checkbox was not selected in the provided browser.", elementText));
+        }
+
+        /// <summary>
         /// Checks if a particualr checkbox is deselected
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
@@ -1451,7 +1556,7 @@ namespace MSCOM.BusinessHelper
             {
                 if (elementSet.GetAttribute("innerText").Contains(elementText))
                 {
-                    if (elementSet.GetAttribute("className") == "multiselect-item multiselect-all")
+                    if (!(elementSet.GetAttribute("className").Contains("active")))
                     {
                         return true;
                     }
@@ -1516,6 +1621,158 @@ namespace MSCOM.BusinessHelper
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' is not filtered in the provided browser.", elementText));
             throw new DDA.DDAStepException(string.Format("The element '{0}' is not filtered in the provided browser.", elementText));
+        }
+
+        /// <summary>
+        /// Check if the select control is rendered empty
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementID">ID associated with the Select control</param>
+        /// <returns>True if the control is rendered empty. Throws DDAStepException otehrwise.</returns>
+        public static bool IsSelectControlEmptyById(object browser, string elementID)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}SelectControlIsNotEmpty", elementID);
+            int count = 0;
+
+            OpenQA.Selenium.IWebElement elementSet = wBrowser.FindElement(By.Id(elementID));
+            OpenQA.Selenium.Support.UI.SelectElement elementSelect = new OpenQA.Selenium.Support.UI.SelectElement(elementSet);
+            IList<IWebElement> selectOptions = elementSelect.Options;
+
+            foreach (IWebElement element in selectOptions)
+            {
+                if (!(element.Enabled))
+                {
+                    count++;
+                }
+            }
+            if (count == elementSelect.Options.Count)
+            {
+                return true;
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The select control '{0}' was not found empty in the provided browser.", elementID));
+            throw new MSCOM.DDA.DDAStepException(string.Format("The select control '{0}' was not found empty in the provided browser.", elementID));
+
+        }
+
+        /// <summary>
+        /// Checks if the particular select option is disabled
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementID">ID associated with the Select control</param>
+        /// <param name="value">test associated with the Select option</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckSelectOptionIsDisabled(object browser, string elementID, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("UnableToFind{0}Option", value);
+            try
+            {
+                OpenQA.Selenium.IWebElement elementSet = wBrowser.FindElement(By.Id(elementID));
+                OpenQA.Selenium.Support.UI.SelectElement elementSelect = new OpenQA.Selenium.Support.UI.SelectElement(elementSet);
+                IList<IWebElement> selectOptions = elementSelect.Options;
+
+                foreach (IWebElement element in selectOptions)
+                {
+                    if (element.Text == value && (!(element.Enabled)))
+                    {
+                        return wBrowser;
+                    }
+                }
+                GetPageScreenShot(wBrowser, fileName);
+                GetPageSource(wBrowser, fileName);
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The option '{0}' was not found in the provided browser.", value));
+                throw new MSCOM.DDA.DDAStepException(string.Format("The option '{0}' was not found in drop down menu in the provided browser.", value));
+
+            }
+
+            catch (DDA.DDAStepException e)
+            {
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Unable to find option '{0}'", e.Message));
+                return false;
+            }
+
+        }
+
+        /// <summary>
+        /// Checks if the particular select option contains the provided value
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementID">ID associated with the Select control</param>
+        /// <param name="value">test associated with the Select option</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckSelectOptionContains(object browser, string elementID, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("UnableToFind{0}Option", value);
+            try
+            {
+                OpenQA.Selenium.IWebElement elementSet = wBrowser.FindElement(By.Id(elementID));
+                OpenQA.Selenium.Support.UI.SelectElement elementSelect = new OpenQA.Selenium.Support.UI.SelectElement(elementSet);
+                IList<IWebElement> selectOptions = elementSelect.Options;
+
+                foreach (IWebElement element in selectOptions)
+                {
+                    if (element.Text == value)
+                    {
+                        return wBrowser;
+                    }
+                }
+                GetPageScreenShot(wBrowser, fileName);
+                GetPageSource(wBrowser, fileName);
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The option '{0}' was not found in the provided browser.", value));
+                throw new MSCOM.DDA.DDAStepException(string.Format("The option '{0}' was not found in drop down menu in the provided browser.", value));
+
+            }
+
+            catch (DDA.DDAStepException e)
+            {
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Unable to find option '{0}'", e.Message));
+                return false;
+            }
+
+        }
+
+        /// <summary>
+        /// Checks if the particular select option does not contain the provided value
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="elementID">ID associated with the Select control</param>
+        /// <param name="value">test associated with the Select option</param>
+        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        public static object CheckSelectOptionDoesNotContain(object browser, string elementID, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("AbleToFind{0}Option", value);
+            try
+            {
+                OpenQA.Selenium.IWebElement elementSet = wBrowser.FindElement(By.Id(elementID));
+                OpenQA.Selenium.Support.UI.SelectElement elementSelect = new OpenQA.Selenium.Support.UI.SelectElement(elementSet);
+                IList<IWebElement> selectOptions = elementSelect.Options;
+
+                foreach (IWebElement element in selectOptions)
+                {
+                    if (!(element.Text == value))
+                    {
+                        return wBrowser;
+                    }
+                }
+                GetPageScreenShot(wBrowser, fileName);
+                GetPageSource(wBrowser, fileName);
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The option '{0}' was found in the provided browser.", value));
+                throw new MSCOM.DDA.DDAStepException(string.Format("The option '{0}' was found in drop down menu in the provided browser.", value));
+
+            }
+
+            catch (DDA.DDAStepException e)
+            {
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Able to find option '{0}'", e.Message));
+                return false;
+            }
+
         }
 
         /// <summary>

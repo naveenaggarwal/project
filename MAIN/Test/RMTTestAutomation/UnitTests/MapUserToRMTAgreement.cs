@@ -828,5 +828,52 @@ namespace RMT.UnitTests
             Assert.IsNull(error, error);
         }
 
+        [TestMethod]
+        [WorkItem(193092)]
+        [TestProperty("TestCaseId", "193092")]
+        public void VerifyOnlyEnabledRMTAgreementsCanBeAssigned()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userToRMTAgreementTab"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["Name"]));
+                    results.Add(SeleniumWebHelper.ImplicitlyWait(results[7]));
+                    results.Add(SeleniumWebHelper.GetElement(results[0], i["userNamesAutoPopulateTextbox"]));
+                    results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[0], i["userNamesAutoPopulateTextbox"], i["Name"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["userNameAlertBox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickElementWithXPath(results[0], i["RMTAgreementsTextbox"]));
+                    results.Add(SeleniumWebHelper.IsOrderedListElementDisabled(results[0], i["RMTAgreementsDropDown"], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnOrderedListElement(results[0], i["RMTAgreementsDropDown"], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnOrderedListElement(results[0], i["RMTAgreementsDropDown"], i["enabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.CheckTextboxValues(results[0], i["disabledRMTAgreementName"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (DDAIterationException e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
     }
 }
