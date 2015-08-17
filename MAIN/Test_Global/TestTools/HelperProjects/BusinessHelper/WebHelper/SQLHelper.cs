@@ -69,7 +69,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new DDA.DDAIterationException(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
             }
 
         }
@@ -151,7 +151,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new DDA.DDAIterationException(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query1, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query1, DatabaseName, ServerName, e.Message));
             }
 
             return CreateCountString(result1[1][0], result2[1][0]);
@@ -207,7 +207,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new DDA.DDAIterationException(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
             }
 
             if (IsDataEnabledInDatabase(result, dataValues))
@@ -216,7 +216,7 @@ namespace MSCOM.BusinessHelper
             }
             else
             {
-                throw new DDA.DDAIterationException("The values are not enabled in the database.");
+                throw new Exception("The values are not enabled in the database.");
             }
         }
 
@@ -270,7 +270,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new DDA.DDAIterationException(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
             }
 
             if (IsDataEnabledInDatabase(result, dataValue))
@@ -279,7 +279,7 @@ namespace MSCOM.BusinessHelper
             }
             else
             {
-                throw new DDA.DDAIterationException("The value did not match in the database.");
+                throw new Exception("The value did not match in the database.");
             }
         }
 
@@ -332,7 +332,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new DDA.DDAIterationException(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
             }
 
             if (IsDataAddedToDatabase(result, value1, value2))
@@ -341,7 +341,7 @@ namespace MSCOM.BusinessHelper
             }
             else
             {
-                throw new DDA.DDAIterationException(string.Format("The values '{0}' and '{1}' were not mapped to the database.", value1, value2));
+                throw new Exception(string.Format("The values '{0}' and '{1}' were not mapped to the database.", value1, value2));
             }
         }
 
@@ -394,7 +394,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new DDA.DDAIterationException(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
             }
 
             if (IsDataUpdatedInDatabase(result, value1, value2))
@@ -403,7 +403,7 @@ namespace MSCOM.BusinessHelper
             }
             else
             {
-                throw new DDA.DDAIterationException(string.Format("The values '{0}' and '{1}' were not updated in the database.", value1, value2));
+                throw new Exception(string.Format("The values '{0}' and '{1}' were not updated in the database.", value1, value2));
             }
         }
 
@@ -457,7 +457,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new DDA.DDAIterationException(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
             }
 
             if (IsDataUpdatedInDatabase(result, value1, value2, value3))
@@ -466,7 +466,7 @@ namespace MSCOM.BusinessHelper
             }
             else
             {
-                throw new DDA.DDAIterationException(string.Format("The values '{0}' and '{1}' were not updated in the database.", value1, value2));
+                throw new Exception(string.Format("The values '{0}' and '{1}' were not updated in the database.", value1, value2));
             }
         }
 

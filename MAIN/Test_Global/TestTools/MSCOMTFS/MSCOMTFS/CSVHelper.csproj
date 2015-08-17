@@ -82,13 +82,8 @@
     <Compile Include="CSVDataIteration.cs" />
     <Compile Include="CSVStep.cs" />
     <Compile Include="CSVTestCase.cs" />
-    <Compile Include="MTMDataIteration.cs" />
-    <Compile Include="MTMStep.cs" />
-    <Compile Include="MTMTestCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TCIterationResult.cs" />
     <Compile Include="TestDataMan.cs" />
-    <Compile Include="TFSContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Tools\Tools.csproj">

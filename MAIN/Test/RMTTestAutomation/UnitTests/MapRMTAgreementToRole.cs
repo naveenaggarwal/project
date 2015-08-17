@@ -3,9 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MSCOM.BusinessHelper;
-using MSCOM.Test.TFS;
 using MSCOM.Test.CSV;
-using MSCOM.DDA;
 
 namespace RMT.UnitTests
 {
@@ -68,7 +66,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -106,7 +104,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -140,7 +138,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -181,7 +179,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -222,7 +220,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -261,7 +259,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -299,7 +297,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -338,7 +336,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -392,7 +390,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -436,7 +434,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -476,7 +474,7 @@ namespace RMT.UnitTests
                     results.Add(SQLHelper.RunQueryAndCompare(getEnabledRolesForAgreement, (List<string>)results[9]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -519,7 +517,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -567,7 +565,7 @@ namespace RMT.UnitTests
                     results.Add(SQLHelper.RunQueryAndCompare(mapRoleToRMTAgreementQuery, i["roleName1"], i["roleName2"]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -607,7 +605,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -650,7 +648,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -689,7 +687,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -731,7 +729,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -773,7 +771,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -812,7 +810,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -852,7 +850,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -894,7 +892,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 
@@ -941,7 +939,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
                     results.Clear();
                 }
-                catch (DDAIterationException e)
+                catch (Exception e)
                 {
                     error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
 

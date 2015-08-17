@@ -161,40 +161,5 @@ namespace MSCOM.Test.Tools
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="seconds"></param>
-        /// <returns></returns>
-        public static bool IsTimeOut(int seconds)
-        {
-            if (seconds > AutomationSettings.TestTimeOut)
-            {
-                System.Diagnostics.StackTrace stackTrace = new System.Diagnostics.StackTrace();
-                throw new TimeoutException(string.Format("{0}.{1}@{2} Execution Timed Out.", stackTrace.GetFrame(1).GetMethod().ReflectedType.FullName, stackTrace.GetFrame(1).GetMethod().Name, GetLocalHostFQDN().ToUpper()));
-            }
-            System.Threading.Thread.Sleep(1000);
-            return false;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="seconds"></param>
-        /// <returns></returns>
-        public static bool Wait(string seconds)
-        {
-            try
-            {
-                System.Threading.Thread.Sleep(int.Parse(seconds) * 1000);
-                return true;
-            }
-            catch
-            {
-                LogToTestResult(string.Format("Unable to wait as requested '{0}'. Waited 1 second instead.", seconds));
-                System.Threading.Thread.Sleep(1000);
-                return false;
-            }
-        }
     }
 }

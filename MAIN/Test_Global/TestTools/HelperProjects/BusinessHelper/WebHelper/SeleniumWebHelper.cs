@@ -126,7 +126,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="fileName">file name using which the screenshot will be saved</param>
-        /// <returns>Browser as an object. Throws a DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws a Exception otherwise.</returns>
         public static object GetPageScreenShot(object browser, string fileName)
         {
             try
@@ -141,7 +141,7 @@ namespace MSCOM.BusinessHelper
             catch (Exception)
             {
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to get the screenshot of the error.");
-                throw new DDA.DDAStepException(string.Format("Unable to get the screenshot of the error."));
+                throw new Exception(string.Format("Unable to get the screenshot of the error."));
             }
         }
 
@@ -150,7 +150,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="fileName">file name using which the page source will be saved</param>
-        /// <returns>Browser as an object. Throws a DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws a Exception otherwise.</returns>
         public static object GetPageSource(object browser, string fileName)
         {
             try
@@ -165,7 +165,7 @@ namespace MSCOM.BusinessHelper
             catch (Exception)
             {
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to get the page source of the page.");
-                throw new DDA.DDAStepException(string.Format("Unable to get the page source of the page."));
+                throw new Exception(string.Format("Unable to get the page source of the page."));
             }
         }
 
@@ -226,7 +226,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="key">Key to look for within the rendered text</param>
         /// <param name="parentElement">Optional element name to scope the search within said element</param>
-        /// <returns>True if the key is found. Throws DDAStepException otherwise</returns>
+        /// <returns>True if the key is found. Throws Exception otherwise</returns>
         public static bool TextIsRendered(object browser, string key, string parentElement = "")
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -243,7 +243,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The text '{0}' was not found in the provided browser.", key));
-            throw new DDA.DDAStepException(string.Format("The key '{0}' was not found in the provided browser.", key));
+            throw new Exception(string.Format("The key '{0}' was not found in the provided browser.", key));
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="key">Optional element name to scope the search within said element</param>
-        /// <returns>True if the key is NOT found. Throws DDAStepException otherwise</returns>
+        /// <returns>True if the key is NOT found. Throws Exception otherwise</returns>
         public static bool TextIsNotRendered(object browser, string key, string element = "")
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -263,7 +263,7 @@ namespace MSCOM.BusinessHelper
                     goto FAIL;
                 }
             }
-            catch (DDA.DDAStepException)
+            catch (Exception)
             {
                 return true;
             }
@@ -272,7 +272,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The text '{0}' was found in the provided browser.", key));
-            throw new DDA.DDAStepException(string.Format("The key '{0}' was found in the provided browser.", key));
+            throw new Exception(string.Format("The key '{0}' was found in the provided browser.", key));
         }
 
         /// <summary>
@@ -294,7 +294,7 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element with id '{0}' was not found in the provided browser.", id));
-                throw new DDA.DDAStepException(string.Format("Unable to find element with id '{0}' in provided browser.", id));
+                throw new Exception(string.Format("Unable to find element with id '{0}' in provided browser.", id));
             }
         }
 
@@ -386,7 +386,7 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to click on element '{0}' in the provided browser.", element));
-                throw new DDA.DDAStepException(string.Format("Unable to click on element '{0}'. Unable to find element in provided browser.", element));
+                throw new Exception(string.Format("Unable to click on element '{0}'. Unable to find element in provided browser.", element));
             }
 
             OpenQA.Selenium.IJavaScriptExecutor js = (OpenQA.Selenium.IJavaScriptExecutor)wBrowser;
@@ -402,7 +402,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="value">title or text value associated with that input element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object ClickOnCheckbox(object browser, string value)
         {
             string fileName = "UnableToFindInputElement";
@@ -431,7 +431,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to find checkbox element '{0}' in the provided browser.", value));
-            throw new DDA.DDAStepException(string.Format("Unable to find checkbox element '{0}'. Unable to find element in provided browser.", value));
+            throw new Exception(string.Format("Unable to find checkbox element '{0}'. Unable to find element in provided browser.", value));
         }
 
         /// <summary>
@@ -493,7 +493,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to click on link '{0}' in the provided browser.", value));
-            throw new DDA.DDAStepException(string.Format("Unable to click on link '{0}'. Unable to find element in provided browser.", value));
+            throw new Exception(string.Format("Unable to click on link '{0}'. Unable to find element in provided browser.", value));
         }
 
         /// <summary>
@@ -510,65 +510,13 @@ namespace MSCOM.BusinessHelper
             {
                 ClickOnALink(browser, value);
             }
-            catch (DDA.DDAStepException)
+            catch (Exception)
             {
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to click on link '{0}' in the provided browser.", value));
                 return false;
             }
-            return true;
-        }
-
-        /// <summary>
-        /// Compares the given browser current url with the provided url
-        /// </summary>
-        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
-        /// <param name="url"></param>
-        /// <returns>True if the url is the expected on. Throws DDAStepException otherwise</returns>
-        public static bool PageUrlContains(object browser, string url)
-        {
-            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
-            string fileName = string.Format("PageURLDoesNotContain{0}", url);
-            string cleanUrl = MSCOM.Test.Tools.StringManipulation.RemoveQSP(wBrowser.Url);
-            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Browser 'url' was '{0}'", cleanUrl));
-
-            if (!cleanUrl.Contains(MSCOM.Test.Tools.StringManipulation.RemoveQSP(url)))
-            {
-                GetPageScreenShot(wBrowser, fileName);
-                GetPageSource(wBrowser, fileName);
-                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Browser URL is '{0}' which is not expected.", url));
-                throw new MSCOM.DDA.DDAStepException(string.Format("Browser 'url' was expected to contain '{0}' but current URL is '{1}'.", url, cleanUrl));
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Compares the given browser current url with the provided url
-        /// </summary>
-        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
-        /// <param name="url"></param>
-        /// <returns>True if the url is the expected on. Throws DDAStepException otherwise</returns>
-        public static bool PageUrlDoesNotContains(object browser, string url)
-        {
-            try
-            {
-                if (PageUrlContains(browser, url))
-                {
-                    OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
-                    string fileName = string.Format("PageURLContains{0}", url);
-                    GetPageScreenShot(wBrowser, fileName);
-                    GetPageSource(wBrowser, fileName);
-                    MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Browser URL contains '{0}' which is not expected.", url));
-                    throw new MSCOM.DDA.DDAStepException(string.Format("Browser 'url' was expected not to contain '{0}' but current URL is '{1}'.", url, wBrowser.Url));
-                }
-            }
-            catch (MSCOM.DDA.DDAStepException)
-            {
-                return true;
-            }
-
             return true;
         }
 
@@ -650,7 +598,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="element">The text which needs to be checked for</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object GetElementLabel(object browser, string labelText)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -667,7 +615,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The label '{0}' was not found in the provided browser.", labelText));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The label '{0}' was not found in the provided browser.", labelText));
+            throw new Exception(string.Format("The label '{0}' was not found in the provided browser.", labelText));
         }
 
         /// <summary>
@@ -676,7 +624,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementId">the textbox name in which the text needs to be written</param>
         /// <param name="value">the text which needs to be written in the textbox</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object WriteOnTextBox(object browser, string elementId, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -693,7 +641,7 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element with id '{0}' was not found in the provided browser.", elementId));
-                throw new MSCOM.DDA.DDAIterationException(string.Format("The element id '{0}' was not found in the provided browser.", elementId));
+                throw new Exception(string.Format("The element id '{0}' was not found in the provided browser.", elementId));
             }
 
             return wBrowser;
@@ -704,7 +652,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="value">the value of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object LinkIsRendered(object browser, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -721,7 +669,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The link element '{0}' was not found in the provided browser.", value));
-            throw new DDA.DDAStepException(string.Format("Unable to find link element '{0}' in the page.", value));
+            throw new Exception(string.Format("Unable to find link element '{0}' in the page.", value));
         }
 
         /// <summary>
@@ -729,7 +677,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="value">text associated with the link</param>
-        /// <returns>Returns browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Returns browser as an object. Throws Exception otherwise.</returns>
         public static object ClickOnLinkByText(object browser, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -751,7 +699,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The link element '{0}' was not found in the provided browser.", value));
-            throw new DDA.DDAStepException(string.Format("Unable to find link element '{0}' in the page.", value));
+            throw new Exception(string.Format("Unable to find link element '{0}' in the page.", value));
         }
 
         /// <summary>
@@ -759,7 +707,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="URL">the string to be compared</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckPageURLContains(object browser, string URL)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -773,7 +721,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The URL of the provided browser did not match with '{0}'.", URL));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The URL of the provided browser did not match with {0}.", URL));
+            throw new Exception(string.Format("The URL of the provided browser did not match with {0}.", URL));
         }
 
         public static object SelectDropdownValue(object browser, string id, string value)
@@ -790,7 +738,7 @@ namespace MSCOM.BusinessHelper
 
             }
 
-            catch (DDA.DDAStepException)
+            catch (Exception)
             {
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
@@ -836,7 +784,7 @@ namespace MSCOM.BusinessHelper
                 }
             }
 
-            catch (DDA.DDAStepException)
+            catch (Exception)
             {
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
@@ -853,7 +801,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="id">the id of the select drop down menu</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object IsSelectOptionNull(object browser, string id)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -871,7 +819,7 @@ namespace MSCOM.BusinessHelper
                         GetPageScreenShot(wBrowser, fileName);
                         GetPageSource(wBrowser, fileName);
                         MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to find element '{0}' in the provided browser.", id));
-                        throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' was not found in the provided browser.", id));
+                        throw new Exception(string.Format("The element '{0}' was not found in the provided browser.", id));
                     }
 
                     return wBrowser;
@@ -881,7 +829,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to find input element '{0}' in the provided browser.", id));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' was not found in the provided browser.", id));
+            throw new Exception(string.Format("The element '{0}' was not found in the provided browser.", id));
         }
 
         /// <summary>
@@ -911,11 +859,11 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not found in the provided browser.", value));
-                throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' was not found in drop down menu in the provided browser.", value));
+                throw new Exception(string.Format("The element '{0}' was not found in drop down menu in the provided browser.", value));
 
             }
 
-            catch (DDA.DDAStepException e)
+            catch (Exception e)
             {
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Unable to check drop down menu values. '{0}'", e.Message));
                 return false;
@@ -942,7 +890,7 @@ namespace MSCOM.BusinessHelper
                 }
             }
             
-            throw new DDA.DDAStepException(string.Format("Unable to click on button '{0}'. Unable to find element in provided browser.", value));
+            throw new Exception(string.Format("Unable to click on button '{0}'. Unable to find element in provided browser.", value));
         }
 
         /// <summary>
@@ -967,7 +915,7 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The control '{0}' was not rendered empty in the provided browser.", id));
-                throw new DDA.DDAStepException(string.Format("The element '{0}' was not rendered empty in the provided browser.", id));
+                throw new Exception(string.Format("The element '{0}' was not rendered empty in the provided browser.", id));
             }
         }
 
@@ -999,7 +947,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The control '{0}' was rendered empty in the provided browser.", id));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' was rendered empty in the provided browser.", id));
+            throw new Exception(string.Format("The element '{0}' was rendered empty in the provided browser.", id));
         }
 
         /// <summary>
@@ -1024,7 +972,7 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The control '{0}' was not rendered empty in the provided browser.", elementXPath));
-                throw new DDA.DDAStepException(string.Format("The element '{0}' was not rendered empty in the provided browser.", elementXPath));
+                throw new Exception(string.Format("The element '{0}' was not rendered empty in the provided browser.", elementXPath));
             }
         }
 
@@ -1047,7 +995,7 @@ namespace MSCOM.BusinessHelper
                 }
             }
 
-            catch (DDA.DDAStepException)
+            catch (Exception)
             {
                 return true;
             }
@@ -1056,7 +1004,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The control '{0}' was rendered empty in the provided browser.", elementXPath));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' was rendered empty in the provided browser.", elementXPath));
+            throw new Exception(string.Format("The element '{0}' was rendered empty in the provided browser.", elementXPath));
         }
 
         /// <summary>
@@ -1064,7 +1012,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="value">text associated with the link</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckLinkIsNotRendered(object browser, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1080,7 +1028,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Able to find link '{0}' in the provided browser.", value));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The link '{0}' was not found in the provided browser.", value));
+            throw new Exception(string.Format("The link '{0}' was not found in the provided browser.", value));
         }
 
         /// <summary>
@@ -1088,7 +1036,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="xpath">XPath of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object GetElementByXPath(object browser, string xpath)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1103,7 +1051,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not rendered in the provided browser.", xpath));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' was not rendered in the provided browser.", xpath));
+            throw new Exception(string.Format("The element '{0}' was not rendered in the provided browser.", xpath));
         }
 
         /// <summary>
@@ -1112,7 +1060,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="id">ID of the element</param>
         /// <param name="text">text associated with the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckElementTextById(object browser, string id, string text)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1127,7 +1075,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not rendered in the provided browser.", id));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' was not rendered in the provided browser.", id));
+            throw new Exception(string.Format("The element '{0}' was not rendered in the provided browser.", id));
         }
 
         /// <summary>
@@ -1136,7 +1084,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="xpath">XPath of the element</param>
         /// <param name="text">text associated with the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckElementTextByXPath(object browser, string xpath, string text)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1151,7 +1099,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not rendered in the provided browser.", xpath));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' was not rendered in the provided browser.", xpath));
+            throw new Exception(string.Format("The element '{0}' was not rendered in the provided browser.", xpath));
         }
 
         /// <summary>
@@ -1160,7 +1108,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="id">ID of the element to be clicked</param>
         /// <param name="value">Text value of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object ClickOnOrderedListElement(object browser, string id, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1182,7 +1130,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not selected in the provided browser.", value));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The value '{0}' could not be selected in the provided browser.", value));
+            throw new Exception(string.Format("The value '{0}' could not be selected in the provided browser.", value));
         }
 
         /// <summary>
@@ -1191,7 +1139,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="id">ID of the element to be clicked</param>
         /// <param name="value">Text value of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object IsOrderedListElementDisabled(object browser, string id, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1210,7 +1158,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not disabled in the provided browser.", value));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' is not disabled in the provided browser.", value));
+            throw new Exception(string.Format("The element '{0}' is not disabled in the provided browser.", value));
         }
 
         /// <summary>
@@ -1220,7 +1168,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="text1">text rendered in the popup</param>
         /// <param name="text2"></param>
         /// <param name="buttonName"></param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object SwitchToPopUpAndVerify(object browser, string text1, string text2 = "", string buttonName = "")
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1235,7 +1183,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The alert popup was not rendered in the provided browser."));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The popup was not found in the provided browser."));
+            throw new Exception(string.Format("The popup was not found in the provided browser."));
         }
 
         /// <summary>
@@ -1243,7 +1191,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID of the element</param>
-        /// <returns>Returns true if the element is enabled. Throws DDAStepException otherwise.</returns>
+        /// <returns>Returns true if the element is enabled. Throws Exception otherwise.</returns>
         public static bool ElementIsEnabled(object browser, string elementID)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1258,7 +1206,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not enabled in the provided browser.", elementID));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The element '{0}' was not enabled in the provided browser.", elementID));
+            throw new Exception(string.Format("The element '{0}' was not enabled in the provided browser.", elementID));
         }
 
         /// <summary>
@@ -1266,7 +1214,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID of the element</param>
-        /// <returns>Returns true if the element is disabled. Throws DDAStepException otherwise.</returns>
+        /// <returns>Returns true if the element is disabled. Throws Exception otherwise.</returns>
         public static bool ElementIsDisabled(object browser, string elementID)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1278,7 +1226,7 @@ namespace MSCOM.BusinessHelper
                     goto FAIL;
                 }
             }
-            catch (DDA.DDAStepException)
+            catch (Exception)
             {
                 return true;
             }
@@ -1287,7 +1235,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not disabled in the provided browser.", elementID));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' was not disabled in the provided browser.", elementID));
+            throw new Exception(string.Format("The element '{0}' was not disabled in the provided browser.", elementID));
         }
 
         /// <summary>
@@ -1296,7 +1244,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementText">text associated with the element</param>
         /// <param name="bgColor">the background color of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckElementBackgroundColorByText(object browser, string elementText, string bgColor)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1312,7 +1260,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementText));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
+            throw new Exception(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
         }
 
         /// <summary>
@@ -1321,7 +1269,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID of the element</param>
         /// <param name="bgColor">the background color of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckElementBackgroundColorIs(object browser, string elementID, string bgColor)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1336,7 +1284,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementID));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementID));
+            throw new Exception(string.Format("The element '{0}' has a different background color in the provided browser.", elementID));
         }
 
         /// <summary>
@@ -1345,7 +1293,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID of the element</param>
         /// <param name="bgColor">the background color of the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckElementBackgroundColorIsNot(object browser, string elementID, string bgColor)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1360,7 +1308,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementID));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementID));
+            throw new Exception(string.Format("The element '{0}' has a different background color in the provided browser.", elementID));
         }
 
         /// <summary>
@@ -1369,7 +1317,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="linkText">text associated with the link</param>
         /// <param name="bgColor">the background color of the link</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckLinkBackgroundColorIsNot(object browser, string linkText, string bgColor)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1386,7 +1334,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The link '{0}' has a different background color in the provided browser.", linkText));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", linkText));
+            throw new Exception(string.Format("The element '{0}' has a different background color in the provided browser.", linkText));
         }
 
         /// <summary>
@@ -1413,7 +1361,7 @@ namespace MSCOM.BusinessHelper
             }
             else
             {
-                throw new DDA.DDAStepException("The values could not be fetched from the textbox.");
+                throw new Exception("The values could not be fetched from the textbox.");
             }
         }
 
@@ -1422,7 +1370,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="value">Value which needs to be checked</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckTextboxValues(object browser, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1431,7 +1379,7 @@ namespace MSCOM.BusinessHelper
             {
                 if (elementSet.GetAttribute("title").Contains(value))
                 {
-                    throw new DDA.DDAStepException(string.Format("The disabled value '{0}' was selected.", value));
+                    throw new Exception(string.Format("The disabled value '{0}' was selected.", value));
                 }
             }
 
@@ -1443,7 +1391,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="selectID">ID of the 'Select' control</param>
-        /// <returns>Return true if the data is sorted. Throws DDAStepException otherwise.</returns>
+        /// <returns>Return true if the data is sorted. Throws Exception otherwise.</returns>
         public static bool IsDataSorted(object browser, string selectID)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1481,7 +1429,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' data was not sorted in the provided browser.", selectID));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' data was not sorted in drop down menu in the provided browser.", selectID));
+            throw new Exception(string.Format("The '{0}' data was not sorted in drop down menu in the provided browser.", selectID));
         }
 
         /// <summary>
@@ -1489,7 +1437,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementText">text associated with the textbox</param>
-        /// <returns>True if the checkbox is disabled. Throws DDAStepException otherwise.</returns>
+        /// <returns>True if the checkbox is disabled. Throws Exception otherwise.</returns>
         public static bool IsCheckboxDisabled(object browser, string elementText)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1510,7 +1458,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' checkbox was enabled in the provided browser.", elementText));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' checkbox was enabled in the provided browser.", elementText));
+            throw new Exception(string.Format("The '{0}' checkbox was enabled in the provided browser.", elementText));
         }
 
         /// <summary>
@@ -1518,7 +1466,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementText">text associated with the textbox</param>
-        /// <returns>True if the checkbox is selected. Throws DDAStepException otherwise.</returns>
+        /// <returns>True if the checkbox is selected. Throws Exception otherwise.</returns>
         public static bool IsCheckboxSelected(object browser, string elementText)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1538,7 +1486,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' checkbox was not selected in the provided browser.", elementText));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' checkbox was not selected in the provided browser.", elementText));
+            throw new Exception(string.Format("The '{0}' checkbox was not selected in the provided browser.", elementText));
         }
 
         /// <summary>
@@ -1546,7 +1494,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementText">text associated with the textbox</param>
-        /// <returns>True if the checkbox is deselected. Throws DDAStepException otherwise.</returns>
+        /// <returns>True if the checkbox is deselected. Throws Exception otherwise.</returns>
         public static bool IsCheckboxDeselected(object browser, string elementText)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1566,7 +1514,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' checkbox was selected in the provided browser.", elementText));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The '{0}' checkbox was selected in the provided browser.", elementText));
+            throw new Exception(string.Format("The '{0}' checkbox was selected in the provided browser.", elementText));
         }
 
         /// <summary>
@@ -1575,7 +1523,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementText">text associated with the element</param>
         /// <param name="Color">the background color of the text</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckTextBackgroundColorIs(object browser, string elementText, string Color)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1595,7 +1543,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementText));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
+            throw new Exception(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
         }
 
         /// <summary>
@@ -1603,7 +1551,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementText">text associated with the element</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckDropDownValueText(object browser, string elementText)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1620,7 +1568,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' is not filtered in the provided browser.", elementText));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' is not filtered in the provided browser.", elementText));
+            throw new Exception(string.Format("The element '{0}' is not filtered in the provided browser.", elementText));
         }
 
         /// <summary>
@@ -1628,7 +1576,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID associated with the Select control</param>
-        /// <returns>True if the control is rendered empty. Throws DDAStepException otehrwise.</returns>
+        /// <returns>True if the control is rendered empty. Throws Exception otehrwise.</returns>
         public static bool IsSelectControlEmptyById(object browser, string elementID)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1654,7 +1602,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The select control '{0}' was not found empty in the provided browser.", elementID));
-            throw new MSCOM.DDA.DDAStepException(string.Format("The select control '{0}' was not found empty in the provided browser.", elementID));
+            throw new Exception(string.Format("The select control '{0}' was not found empty in the provided browser.", elementID));
 
         }
 
@@ -1664,7 +1612,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID associated with the Select control</param>
         /// <param name="value">test associated with the Select option</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckSelectOptionIsDisabled(object browser, string elementID, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1685,11 +1633,11 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The option '{0}' was not found in the provided browser.", value));
-                throw new MSCOM.DDA.DDAStepException(string.Format("The option '{0}' was not found in drop down menu in the provided browser.", value));
+                throw new Exception(string.Format("The option '{0}' was not found in drop down menu in the provided browser.", value));
 
             }
 
-            catch (DDA.DDAStepException e)
+            catch (Exception e)
             {
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Unable to find option '{0}'", e.Message));
                 return false;
@@ -1703,7 +1651,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID associated with the Select control</param>
         /// <param name="value">test associated with the Select option</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckSelectOptionContains(object browser, string elementID, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1724,11 +1672,11 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The option '{0}' was not found in the provided browser.", value));
-                throw new MSCOM.DDA.DDAStepException(string.Format("The option '{0}' was not found in drop down menu in the provided browser.", value));
+                throw new Exception(string.Format("The option '{0}' was not found in drop down menu in the provided browser.", value));
 
             }
 
-            catch (DDA.DDAStepException e)
+            catch (Exception e)
             {
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Unable to find option '{0}'", e.Message));
                 return false;
@@ -1742,7 +1690,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID associated with the Select control</param>
         /// <param name="value">test associated with the Select option</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckSelectOptionDoesNotContain(object browser, string elementID, string value)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1763,11 +1711,11 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The option '{0}' was found in the provided browser.", value));
-                throw new MSCOM.DDA.DDAStepException(string.Format("The option '{0}' was found in drop down menu in the provided browser.", value));
+                throw new Exception(string.Format("The option '{0}' was found in drop down menu in the provided browser.", value));
 
             }
 
-            catch (DDA.DDAStepException e)
+            catch (Exception e)
             {
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format("Able to find option '{0}'", e.Message));
                 return false;
@@ -1797,7 +1745,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", value));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' not rendered in the provided browser.", value));
+            throw new Exception(string.Format("The element '{0}' not rendered in the provided browser.", value));
         }
 
         /// <summary>
@@ -1806,7 +1754,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementText">text associated with the element</param>
         /// <param name="Color">the background color of the text</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckTextBackgroundColorByAnchorTag(object browser, string elementText, string Color)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1826,7 +1774,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' has a different background color in the provided browser.", elementText));
-            throw new DDA.DDAStepException(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
+            throw new Exception(string.Format("The element '{0}' has a different background color in the provided browser.", elementText));
         }
 
         /// <summary>
@@ -1851,7 +1799,7 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The text '{0}' is same as the element text in the provided browser.", text));
-                throw new DDA.DDAStepException("The text is same in the provided browser.");
+                throw new Exception("The text is same in the provided browser.");
             }
         }
 
@@ -1860,7 +1808,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="browserTitle">title of the browser window</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckBrowserTitle(object browser, string browserTitle)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1874,14 +1822,14 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The browser title is not '{0}'.", browserTitle));
-            throw new DDA.DDAStepException(string.Format("The window title is not '{0}' in the provided browser.", browserTitle));
+            throw new Exception(string.Format("The window title is not '{0}' in the provided browser.", browserTitle));
         }
         
         /// <summary>
         /// Checks if the Portal faviocn is rendered
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
-        /// <returns>True if the favicon is rendered. Throws DDAStepException otherwise.</returns>
+        /// <returns>True if the favicon is rendered. Throws Exception otherwise.</returns>
         public static bool IsFavIconRendered (object browser)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1898,7 +1846,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The favicon is not rendered for the portal."));
-            throw new DDA.DDAStepException("The favicon for the portal is not rendered in the provided browser.");
+            throw new Exception("The favicon for the portal is not rendered in the provided browser.");
         }
 
         /// <summary>
@@ -1907,7 +1855,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <param name="elementID">ID of the control</param>
         /// <param name="count">maximum number of characters that are allowed in the control</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckControlCharactersCount(object browser, string elementID, string count)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1925,7 +1873,7 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The text in '{0}' textbox exceeds '{1}' characters.", elementID, count));
-                throw new DDA.DDAStepException(string.Format("The text in '{0}' textbox exceeds '{1}' characters.", elementID, count));
+                throw new Exception(string.Format("The text in '{0}' textbox exceeds '{1}' characters.", elementID, count));
             }
         }
 
@@ -1933,7 +1881,7 @@ namespace MSCOM.BusinessHelper
         /// Checks the number of auto-populated values
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object CheckCountOfAutoPopulatedValues(object browser, string autopopulateId)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1962,7 +1910,7 @@ namespace MSCOM.BusinessHelper
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
                 MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": More than ten values are auto-populated."));
-                throw new DDA.DDAStepException("More than ten values are auto-populated in the provided browser.");
+                throw new Exception("More than ten values are auto-populated in the provided browser.");
             }
         }
 
@@ -1971,7 +1919,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver wBrowser object</param>
         /// <param name="text">value which needs to be selected</param>
-        /// <returns>Browser as an object. Throws DDAStepException otherwise.</returns>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
         public static object SelectAutoPopulateValue(object browser, string autopopulateId, string text)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
@@ -1994,7 +1942,7 @@ namespace MSCOM.BusinessHelper
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' auto-populated value could not be selected.", text));
-            throw new DDA.DDAStepException(string.Format("The '{0}' auto-populated value could not be selected in the provided browser.", text));
+            throw new Exception(string.Format("The '{0}' auto-populated value could not be selected in the provided browser.", text));
         }
 
     }

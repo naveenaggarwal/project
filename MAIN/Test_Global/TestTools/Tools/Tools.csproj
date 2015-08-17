@@ -74,9 +74,7 @@
     <Compile Include="AutomationSettings.cs" />
     <Compile Include="FileManagement.cs" />
     <Compile Include="Environment.cs" />
-    <Compile Include="PowerShellRemoteData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringManipulation.cs" />
     <Compile Include="TestAgent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,9 +1,0 @@
-﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MSCOM.BusinessHelper.UnitTest" GeneratedClassName="UnitTest">
-  <Profiles />
-  <Settings>
-    <Setting Name="TEST_IIS_BOX" Type="System.String" Scope="User">
-      <Value Profile="(Default)">localhost</Value>
-    </Setting>
-  </Settings>
-</SettingsFile>
