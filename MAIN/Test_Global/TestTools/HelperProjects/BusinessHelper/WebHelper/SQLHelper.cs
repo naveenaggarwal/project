@@ -75,6 +75,186 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Helper method to run a query and return the result
+        /// </summary>
+        /// <param name="query">String containing the query</param>
+        /// <returns>Result of the query</returns>
+        public static string RunQueryAndReturnResult(string query)
+        {
+            var connString = String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};", ServerName, DatabaseName, UserName, Password);
+            string result = null;
+            
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                result = reader.GetValue(0).ToString();
+                            }
+                        }
+                    }
+                    conn.Close();
+                }
+
+                if (result == null)
+                {
+                    throw new Exception(string.Format("Unable to fetch any data for the query '{0}'.", query));
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Helper method to run a query and compares the result
+        /// </summary>
+        /// <param name="query">String containing the query</param>
+        /// <param name="value">value to be compared</param>
+        /// <returns>True if the values match. Else throws an Exception.</returns>
+        public static bool RunQueryAndCompareResult(string query, string value)
+        {
+            var connString = String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};", ServerName, DatabaseName, UserName, Password);
+            string result = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                result = reader.GetValue(0).ToString();
+                            }
+                        }
+                    }
+                    conn.Close();
+                }
+
+                if (result == value || result.Contains(value))
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception(string.Format("The data returned after executing the query did not match with '{0}'.", value));
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Helper method to run a query and compares the result
+        /// </summary>
+        /// <param name="query">String containing the query</param>
+        /// <param name="paramValue">parameter value which needs to be concatenated with the query</param>
+        /// <param name="value">value to be compared</param>
+        /// <returns>True if the values match. Else throws an Exception.</returns>
+        public static bool RunQueryAndCompareResult(string query, string paramValue, string value)
+        {
+            string modifiedQuery = query + "'" + paramValue + "'";
+            var connString = String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};", ServerName, DatabaseName, UserName, Password);
+            string result = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(modifiedQuery, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                result = reader.GetValue(0).ToString();
+                            }
+                        }
+                    }
+                    conn.Close();
+                }
+
+                if (result == value || result.Contains(value))
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception(string.Format("The data returned after executing the query did not match with '{0}'.", modifiedQuery));
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", modifiedQuery, DatabaseName, ServerName, e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Helper method to run a query and return the date result
+        /// </summary>
+        /// <param name="query">String containing the query</param>
+        /// <returns>the value of the radio button which has been selected</returns>
+        public static string RunQueryAndReturnDateResult(string query)
+        {
+            var connString = String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};", ServerName, DatabaseName, UserName, Password);
+            string result = null;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                result = reader.GetValue(0).ToString();
+                            }
+                        }
+                    }
+                    conn.Close();
+                }
+
+                if (result != null)
+                {
+                    return "Expires";
+                }
+                else
+                {
+                    return "Never";
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+            }
+        }
+
+        /// <summary>
         /// Helper method to run two queries and return a string by concatenating the results of the queries.
         /// </summary>
         /// <param name="query1">String containing the first query</param>

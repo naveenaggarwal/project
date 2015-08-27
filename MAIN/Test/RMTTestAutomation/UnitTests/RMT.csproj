@@ -131,6 +131,10 @@ start xcopy "$(SolutionDir)..\PowerShellScripts" "$(TargetDir)PowerShellScripts"
 start xcopy "$(SolutionDir)..\..\..\..\..\External\Selenium 2.40.0\net40" "$(TargetDir)Selenium" /s /i /y
 start xcopy "$(SolutionDir)..\OneClickDeployment\Environments.*" "$(TargetDir)TestContent\Environments.*" /s /i /y</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>if exist "$(TargetPath).locked" del "$(TargetPath).locked"
+if exist "$(TargetPath)" if not exist "$(TargetPath).locked" move "$(TargetPath)" "$(TargetPath).locked"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

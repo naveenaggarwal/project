@@ -829,7 +829,7 @@ namespace RMT.UnitTests
         [TestMethod]
         [WorkItem(193092)]
         [TestProperty("TestCaseId", "193092")]
-        public void VerifyOnlyEnabledRMTAgreementsCanBeAssigned()
+        public void VerifyOnlyEnabledRMTAgreementsCanBeSelected()
         {
             string error = null;
             int iteration = 0;

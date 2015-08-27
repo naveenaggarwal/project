@@ -1,2 +1,2 @@
-webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,logoffXpath,logOffText,associateTab,AddUpdateTab,url2,url3,logOff,
-IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,/html/body/div[1]/div[1]/div/div[3]/a,Log off,Associate,Add/Update,https://opxrmtmain.azurewebsites.net/Home/Update,https://opxrmtmain.azurewebsites.net/Home/Associate,Log off,
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,logoffId,logOffText,associateTab,AddUpdateTab,url2,url3,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,hlkLogOff,Log off,Associate,Add/Update,https://opxrmtmain.azurewebsites.net/Home/Update,https://opxrmtmain.azurewebsites.net/Home/Associate,Log off,

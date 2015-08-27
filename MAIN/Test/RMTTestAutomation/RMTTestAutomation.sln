@@ -19,6 +19,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "..\..\Test_Global\TestTools\Tools\Tools.csproj", "{61A69EC4-3F43-4725-83E7-2F241BC71DFF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHelper", "..\..\Test_Global\TestTools\HelperProjects\BusinessHelper\WebHelper\WebHelper.csproj", "{491500F6-9C22-4FE7-A5E2-364EF91C96EE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{390AB391-9C19-415F-AC37-D7AA6504E65A} = {390AB391-9C19-415F-AC37-D7AA6504E65A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RMT", "UnitTests\RMT.csproj", "{91B5BF77-7D40-415D-BA18-2DEFD51A5CB1}"
 EndProject

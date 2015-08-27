@@ -907,7 +907,7 @@ namespace RMT.UnitTests
         [TestMethod]
         [WorkItem(193082)]
         [TestProperty("TestCaseId", "193082")]
-        public void VerifyOnlyEnabledRolesCanBeAssigned()
+        public void VerifyOnlyEnabledRolesCanBeSelected()
         {
             string error = null;
             int iteration = 0;

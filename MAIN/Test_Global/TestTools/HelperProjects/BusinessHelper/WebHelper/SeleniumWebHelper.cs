@@ -1064,7 +1064,7 @@ namespace MSCOM.BusinessHelper
         public static object CheckElementTextById(object browser, string id, string text)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
-            string fileName = string.Format("UnableToFindElementByXPath");
+            string fileName = string.Format("UnableToFind{0}TextFor{1}Element", text, id);
             OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(id));
 
             if (element.Text == text || element.Text.Contains(text))
@@ -1074,8 +1074,8 @@ namespace MSCOM.BusinessHelper
 
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
-            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not rendered in the provided browser.", id));
-            throw new Exception(string.Format("The element '{0}' was not rendered in the provided browser.", id));
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' with '{1}' text was not rendered in the provided browser.", id, text));
+            throw new Exception(string.Format("The element '{0}' with '{1}' text was not rendered in the provided browser.", id, text));
         }
 
         /// <summary>
@@ -1088,7 +1088,7 @@ namespace MSCOM.BusinessHelper
         public static object CheckElementTextByXPath(object browser, string xpath, string text)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
-            string fileName = string.Format("UnableToFindElementByXPath");
+            string fileName = string.Format("UnableToFind{0}TextFor{1}Element", text, xpath);
             OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.XPath(xpath));
 
             if (element.Text == text || element.GetAttribute("innerText").Contains(text) || element.Text.Contains(text))
@@ -1098,8 +1098,8 @@ namespace MSCOM.BusinessHelper
 
             GetPageScreenShot(wBrowser, fileName);
             GetPageSource(wBrowser, fileName);
-            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' was not rendered in the provided browser.", xpath));
-            throw new Exception(string.Format("The element '{0}' was not rendered in the provided browser.", xpath));
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The element '{0}' with '{1}' text was not rendered in the provided browser.", xpath, text));
+            throw new Exception(string.Format("The element '{0}' with '{1}' text was not rendered in the provided browser.", xpath, text));
         }
 
         /// <summary>
@@ -1198,6 +1198,7 @@ namespace MSCOM.BusinessHelper
             string fileName = string.Format("{0}ElementIsNotEnabled", elementID);
 
             OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(elementID));
+            bool stat = element.Enabled;
             if (element.Enabled)
             {
                 return true;
@@ -1830,7 +1831,7 @@ namespace MSCOM.BusinessHelper
         /// </summary>
         /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
         /// <returns>True if the favicon is rendered. Throws Exception otherwise.</returns>
-        public static bool IsFavIconRendered (object browser)
+        public static bool IsFavIconRendered(object browser)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
             string fileName = "FavIconIsNotRendered";
@@ -1943,6 +1944,283 @@ namespace MSCOM.BusinessHelper
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' auto-populated value could not be selected.", text));
             throw new Exception(string.Format("The '{0}' auto-populated value could not be selected in the provided browser.", text));
+        }
+
+        /// <summary>
+        /// Checks if a particular drop down control is rendered
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver wBrowser object</param>
+        /// <param name="elementID">ID associated with the control</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object CheckDropDownIsRendered(object browser, string elementID)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("UnableToFindDropDown{0}", elementID);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("button")))
+            {
+                if (elementSet.GetAttribute("data-id") == elementID)
+                {
+                    return wBrowser;
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' drop down could not be found.", elementID));
+            throw new Exception(string.Format("The '{0}' drop down could not be found in the provided browser.", elementID));
+        }
+
+        /// <summary>
+        /// Checks if a particular drop down control is rendered with the text
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver wBrowser object</param>
+        /// <param name="elementID">ID associated with the control</param>
+        /// <param name="text">text associated with the control</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object CheckDropDownText(object browser, string elementID, string text = "")
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("TextAssociatedWithDropDownIsNot{0}", text);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("button")))
+            {
+                if (elementSet.GetAttribute("data-id") == elementID)
+                {
+                    if (elementSet.GetAttribute("title") == text || elementSet.GetAttribute("title").Contains(text))
+                    {
+                        return wBrowser;
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' text was not rendered in the drop down.", text));
+            throw new Exception(string.Format("The '{0}' text was not rendered in the drop down in the provided browser.", text));
+        }
+
+        /// <summary>
+        /// Clicks on a particular drop down control
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver wBrowser object</param>
+        /// <param name="elementID">ID associated with the control</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object ClickOnDropDown(object browser, string elementID)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("TextAssociatedWithDropDownIsNot{0}", elementID);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("button")))
+            {
+                if (elementSet.GetAttribute("data-id") == elementID)
+                {
+                    foreach (OpenQA.Selenium.IWebElement ele in elementSet.FindElements(By.TagName("span")))
+                    {
+                        if (ele.GetAttribute("class") == "caret")
+                        {
+                            OpenQA.Selenium.IJavaScriptExecutor js = (OpenQA.Selenium.IJavaScriptExecutor)wBrowser;
+                            js.ExecuteScript("arguments[0].click();", ele);
+                            return wBrowser;
+                        }
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' drop down could not be clicked.", elementID));
+            throw new Exception(string.Format("The '{0}' drop down could not be clicked in the provided browser.", elementID));
+        }
+
+        /// <summary>
+        /// Selects a particular value from the drop down control
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver wBrowser object</param>
+        /// <param name="elementID">ID associated with the control</param>
+        /// <param name="text">text associated with the control</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object SelectDropDownText(object browser, string elementID, string text)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}OptionWasNotRenderedInDropDown", text);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("li")))
+            {
+                foreach (OpenQA.Selenium.IWebElement element in elementSet.FindElements(By.TagName("a")))
+                {
+                    foreach (OpenQA.Selenium.IWebElement ele in element.FindElements(By.TagName("span")))
+                    {
+                        if (ele.GetAttribute("innerText") == text || ele.Text == text)
+                        {
+                            ele.Click();
+                            return wBrowser;
+                        }
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' option could not be selected from the drop down.", text));
+            throw new Exception(string.Format("The '{0}' option could not be selected from the drop down in the provided browser.", text));
+        }
+
+        /// <summary>
+        /// Checks if a radio button control is rendered
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="value">value associated with the control</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object CheckRadioButtonIsRendered(object browser, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("UnableToFindRadioButton{0}", value);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("input")))
+            {
+                if (elementSet.GetAttribute("value") == value)
+                {
+                    return wBrowser;
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' radio button could not be found.", value));
+            throw new Exception(string.Format("The '{0}' radio button could not be found in the provided browser.", value));
+        }
+
+        /// <summary>
+        /// Checks if a particular radio button control is selected
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="value">value associated with the control</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object IsRadioButtonSelected(object browser, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}RadioButtonIsNotSelected", value);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("input")))
+            {
+                if (elementSet.GetAttribute("value") == value)
+                {
+                    if (elementSet.GetAttribute("checked") == "true")
+                    {
+                        return wBrowser;
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' radio button was not selected.", value));
+            throw new Exception(string.Format("The '{0}' radio button was not selected in the provided browser.", value));
+        }
+
+        /// <summary>
+        /// Checks if a particular radio button control is disabled
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="value">value associated with the control</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object IsRadioButtonDisabled(object browser, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("{0}RadioButtonIsNotDisabled", value);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("input")))
+            {
+                if (elementSet.GetAttribute("value") == value)
+                {
+                    if (!(elementSet.Enabled))
+                    {
+                        return wBrowser;
+                    }
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' radio button was not disabled.", value));
+            throw new Exception(string.Format("The '{0}' radio button was not disabled in the provided browser.", value));
+        }
+
+        /// <summary>
+        /// Clicks on a particular radio button control
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="value">value associated with the control</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object ClickOnRadioButton(object browser, string value)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("UnableToClickOnRadioButton{0}", value);
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("input")))
+            {
+                if (elementSet.GetAttribute("value") == value)
+                {
+                    elementSet.Click();
+                    return wBrowser;
+                }
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' radio button could not be clicked.", value));
+            throw new Exception(string.Format("The '{0}' radio button could not be clicked in the provided browser.", value));
+        }
+
+        /// <summary>
+        /// Sets the date from a particular calendar control
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        /// <param name="date">the date to be set</param>
+        /// <returns>Returns the browser as an object. Throws Exception otherwise.</returns>
+        public static object SetDateFromCalendar(object browser, string elementID, string date)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = string.Format("UnableToSetDate{0}", date);
+            OpenQA.Selenium.IWebElement SelectDropdown = null;
+            string[] fields = date.Split('/');
+            string month = fields [0];
+            string day = fields[1];
+            string year = fields[2];
+            try
+            {
+                ((OpenQA.Selenium.IJavaScriptExecutor)wBrowser).ExecuteScript(string.Format("document.getElementById(\"{0}\").removeAttribute('readonly',0);", elementID));
+                OpenQA.Selenium.IWebElement element = wBrowser.FindElement(By.Id(elementID));
+                element.SendKeys("");
+                SelectDropdown = wBrowser.FindElement(By.ClassName("ui-datepicker-month"));
+                OpenQA.Selenium.Support.UI.SelectElement monthDropDown = new OpenQA.Selenium.Support.UI.SelectElement(SelectDropdown);
+                monthDropDown.SelectByText(month);
+                SelectDropdown = wBrowser.FindElement(By.ClassName("ui-datepicker-year"));
+                OpenQA.Selenium.Support.UI.SelectElement yearDropDown = new OpenQA.Selenium.Support.UI.SelectElement(SelectDropdown);
+                yearDropDown.SelectByText(year);
+                foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("td")))
+                {
+                    foreach (OpenQA.Selenium.IWebElement ele in elementSet.FindElements(By.TagName("a")))
+                    {
+                        if (ele.Text == day || ele.GetAttribute("innerText") == day)
+                        {
+                            ele.Click();
+                            return wBrowser;
+                        }
+                    }
+                }
+            }
+
+            catch (Exception)
+            {
+                GetPageScreenShot(wBrowser, fileName);
+                GetPageSource(wBrowser, fileName);
+                MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to set date '{0}' in the provided browser.", date));
+                return false;
+            }
+
+            return wBrowser;
         }
 
     }
