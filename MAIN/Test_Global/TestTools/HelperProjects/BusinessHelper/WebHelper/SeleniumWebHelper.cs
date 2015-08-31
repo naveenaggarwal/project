@@ -193,7 +193,7 @@ namespace MSCOM.BusinessHelper
             {
                 wait.Until(driver1 => ((OpenQA.Selenium.IJavaScriptExecutor)browser).ExecuteScript("return document.readyState").Equals("complete"));
             }
-            catch (System.InvalidOperationException e)
+            catch (System.InvalidOperationException)
             {
                 return;
             }
@@ -212,7 +212,7 @@ namespace MSCOM.BusinessHelper
                     System.Threading.Thread.Sleep(100);
                     seconds++;
                 }
-                catch (System.InvalidOperationException e)
+                catch (System.InvalidOperationException)
                 {
                     return;
                 }
@@ -468,7 +468,7 @@ namespace MSCOM.BusinessHelper
         public static object ClickOnALink(object browser, string value)
         {
 
-        NullLoop: OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+  NullLoop: OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
             string fileName = string.Format("CannotClickLink{0}", value);
             WaitForAjax(wBrowser);
             var link = (OpenQA.Selenium.IWebElement)GetALink(wBrowser, value);
@@ -490,10 +490,6 @@ namespace MSCOM.BusinessHelper
             {
                 goto NullLoop;
             }
-            GetPageScreenShot(wBrowser, fileName);
-            GetPageSource(wBrowser, fileName);
-            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": Unable to click on link '{0}' in the provided browser.", value));
-            throw new Exception(string.Format("Unable to click on link '{0}'. Unable to find element in provided browser.", value));
         }
 
         /// <summary>
@@ -636,7 +632,7 @@ namespace MSCOM.BusinessHelper
                 textElement.SendKeys(value);
             }
 
-            catch (OpenQA.Selenium.NoSuchElementException e)
+            catch (OpenQA.Selenium.NoSuchElementException)
             {
                 GetPageScreenShot(wBrowser, fileName);
                 GetPageSource(wBrowser, fileName);
@@ -2040,7 +2036,7 @@ namespace MSCOM.BusinessHelper
         /// <param name="elementID">ID associated with the control</param>
         /// <param name="text">text associated with the control</param>
         /// <returns>Browser as an object. Throws Exception otherwise.</returns>
-        public static object SelectDropDownText(object browser, string elementID, string text)
+        public static object SelectDropDownText(object browser, string text)
         {
             OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
             string fileName = string.Format("{0}OptionWasNotRenderedInDropDown", text);
@@ -2064,6 +2060,48 @@ namespace MSCOM.BusinessHelper
             GetPageSource(wBrowser, fileName);
             MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The '{0}' option could not be selected from the drop down.", text));
             throw new Exception(string.Format("The '{0}' option could not be selected from the drop down in the provided browser.", text));
+        }
+
+        /// <summary>
+        /// Checks all the values rendered for a drop down control
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver wBrowser object</param>
+        /// <param name="elementID">ID associated with the control</param>
+        /// <param name="values">list of values</param>
+        /// <returns>Browser as an object. Throws Exception otherwise.</returns>
+        public static object CheckDropDownValues(object browser, List<string> values)
+        {
+            OpenQA.Selenium.IWebDriver wBrowser = (OpenQA.Selenium.IWebDriver)browser;
+            string fileName = "OptionsWereInconsistentInDropDown";
+            int count = values.Count;
+            int n = 0;
+
+            foreach (OpenQA.Selenium.IWebElement elementSet in wBrowser.FindElements(By.TagName("li")))
+            {
+                foreach (OpenQA.Selenium.IWebElement element in elementSet.FindElements(By.TagName("a")))
+                {
+                    foreach (OpenQA.Selenium.IWebElement ele in element.FindElements(By.TagName("span")))
+                    {
+                        foreach (string value in values)
+                        {
+                            if (ele.GetAttribute("innerText") == value || ele.Text == value)
+                            {
+                                n++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (n == count)
+            {
+                return wBrowser;
+            }
+
+            GetPageScreenShot(wBrowser, fileName);
+            GetPageSource(wBrowser, fileName);
+            MSCOM.Test.Tools.TestAgent.LogToTestResult(string.Format(System.DateTime.Now.ToString("yyyy-MM-dd HHmmss") + ": The options rendered in the drop down were inconsistent."));
+            throw new Exception("The options rendered in the '{0}' drop down in the provided browser were inconsistent.");
         }
 
         /// <summary>

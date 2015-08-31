@@ -30,7 +30,11 @@ namespace RMT.UnitTests
 
         string getExistingUserAccountActiveRolesCount = "SELECT COUNT(roleID) FROM [dbo].[UserRole] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 1)) AND roleID NOT IN (SELECT roleID FROM [dbo].[Role] WHERE statusId = 2)";
 
+        string getExistingUserAccountTotalRolesCount = "SELECT COUNT(roleID) FROM [dbo].[UserRole] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 1))";
+
         string getExistingUserAccountActiveRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[UserAgreement] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 1)) AND agreementID NOT IN (SELECT agreementID FROM [dbo].[Agreement] WHERE statusId = 2 OR expiryDate < GETDATE())";
+
+        string getExistingUserAccountTotalRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[UserAgreement] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 1))";
 
         #endregion
 
@@ -46,7 +50,11 @@ namespace RMT.UnitTests
 
         string getExistingDisabledUserAccountActiveRolesCount = "SELECT COUNT(roleID) FROM [dbo].[UserRole] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 2)) AND roleID NOT IN (SELECT roleID FROM [dbo].[Role] WHERE statusId = 2)";
 
+        string getExistingDisabledUserAccountTotalRolesCount = "SELECT COUNT(roleID) FROM [dbo].[UserRole] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 2))";
+
         string getExistingDisabledUserAccountActiveRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[UserAgreement] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 2)) AND agreementID NOT IN (SELECT agreementID FROM [dbo].[Agreement] WHERE statusId = 2 OR expiryDate < GETDATE())";
+
+        string getExistingDisabledUserAccountTotalRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[UserAgreement] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 2))";
 
         #endregion
 
@@ -62,7 +70,11 @@ namespace RMT.UnitTests
 
         string getExistingExpiredUserAccountActiveRolesCount = "SELECT COUNT(roleID) FROM [dbo].[UserRole] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 1 AND expiryDate < GETDATE())) AND roleID NOT IN (SELECT roleID FROM [dbo].[Role] WHERE statusId = 2)";
 
+        string getExistingExpiredUserAccountTotalRolesCount = "SELECT COUNT(roleID) FROM [dbo].[UserRole] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 1 AND expiryDate < GETDATE()))";
+
         string getExistingExpiredUserAccountActiveRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[UserAgreement] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 1 AND expiryDate < GETDATE())) AND agreementID NOT IN (SELECT agreementID FROM [dbo].[Agreement] WHERE statusId = 2 OR expiryDate < GETDATE())";
+
+        string getExistingExpiredUserAccountTotalRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[UserAgreement] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 1 AND expiryDate < GETDATE()))";
 
         #endregion
 
@@ -78,7 +90,11 @@ namespace RMT.UnitTests
 
         string getExistingDisabledAndExpiredUserAccountActiveRolesCount = "SELECT COUNT(roleID) FROM [dbo].[UserRole] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 2 AND expiryDate < GETDATE())) AND roleID NOT IN (SELECT roleID FROM [dbo].[Role] WHERE statusId = 2)";
 
+        string getExistingDisabledAndExpiredUserAccountTotalRolesCount = "SELECT COUNT(roleID) FROM [dbo].[UserRole] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 2 AND expiryDate < GETDATE()))";
+
         string getExistingDisabledAndExpiredUserAccountActiveRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[UserAgreement] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 2 AND expiryDate < GETDATE())) AND agreementID NOT IN (SELECT agreementID FROM [dbo].[Agreement] WHERE statusId = 2 OR expiryDate < GETDATE())";
+
+        string getExistingDisabledAndExpiredUserAccountTotalRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[UserAgreement] WHERE userID = (SELECT userID FROM [dbo].[User] WHERE userName = (SELECT TOP 1 userName FROM [dbo].[User] WHERE userName like '%OPXPartner%' AND statusID = 2 AND expiryDate < GETDATE()))";
 
         #endregion
 
@@ -89,6 +105,8 @@ namespace RMT.UnitTests
         string getStatus = "SELECT TOP 1 statusName FROM [dbo].[Status]";
 
         string getExistingUserAccountExtendedExpiryDate = "SELECT expiryDate FROM [dbo].[User] WHERE userName = ";
+
+        string getOEMNames = "SELECT oemName FROM [dbo].[Oem]";
 
         #endregion
 
@@ -160,7 +178,6 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.IsRadioButtonDisabled(results[0], i["never"]));
                     results.Add(SeleniumWebHelper.IsRadioButtonDisabled(results[0], i["expiresOn"]));
                     results.Add(SeleniumWebHelper.ElementIsDisabled(results[0], i["expiresOnTextbox"]));
-                    //results.Add(SeleniumWebHelper.ElementIsDisabled(results[0], i["showMoreDetailsLink"]));
                     results.Add(SeleniumWebHelper.ElementIsDisabled(results[0], i["editButton"]));
                     results.Add(SeleniumWebHelper.ElementIsDisabled(results[0], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
@@ -196,8 +213,8 @@ namespace RMT.UnitTests
                     results.Add(SQLHelper.RunQueryAndReturnResult(getExistingUserAccountStatus));
                     results.Add(SQLHelper.RunQueryAndReturnResult(getExistingUserAccountOEM));
                     results.Add(SQLHelper.RunQueryAndReturnDateResult(getExistingUserAccountExpiryDate));
-                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingUserAccountActiveRolesCount));
-                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingUserAccountActiveRMTAgreementsCount));
+                    results.Add(SQLHelper.RunQuery(getExistingUserAccountActiveRolesCount, getExistingUserAccountTotalRolesCount));
+                    results.Add(SQLHelper.RunQuery(getExistingUserAccountActiveRMTAgreementsCount, getExistingUserAccountTotalRMTAgreementsCount));
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[6]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[6], i["userNameTextbox"], i["userName"]));
@@ -249,8 +266,8 @@ namespace RMT.UnitTests
                     results.Add(SQLHelper.RunQueryAndReturnResult(getExistingDisabledUserAccountStatus));
                     results.Add(SQLHelper.RunQueryAndReturnResult(getExistingDisabledUserAccountOEM));
                     results.Add(SQLHelper.RunQueryAndReturnDateResult(getExistingDisabledUserAccountExpiryDate));
-                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingDisabledUserAccountActiveRolesCount));
-                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingDisabledUserAccountActiveRMTAgreementsCount));
+                    results.Add(SQLHelper.RunQuery(getExistingDisabledUserAccountActiveRolesCount, getExistingDisabledUserAccountTotalRolesCount));
+                    results.Add(SQLHelper.RunQuery(getExistingDisabledUserAccountActiveRMTAgreementsCount, getExistingDisabledUserAccountTotalRMTAgreementsCount));
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[6]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[6], i["userNameTextbox"], i["userName"]));
@@ -302,8 +319,8 @@ namespace RMT.UnitTests
                     results.Add(SQLHelper.RunQueryAndReturnResult(getExistingExpiredUserAccountStatus));
                     results.Add(SQLHelper.RunQueryAndReturnResult(getExistingExpiredUserAccountOEM));
                     results.Add(SQLHelper.RunQueryAndReturnDateResult(getExistingExpiredUserAccountExpiryDate));
-                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingExpiredUserAccountActiveRolesCount));
-                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingExpiredUserAccountActiveRMTAgreementsCount));
+                    results.Add(SQLHelper.RunQuery(getExistingExpiredUserAccountActiveRolesCount, getExistingExpiredUserAccountTotalRolesCount));
+                    results.Add(SQLHelper.RunQuery(getExistingExpiredUserAccountActiveRMTAgreementsCount, getExistingExpiredUserAccountTotalRMTAgreementsCount));
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[6]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[6], i["userNameTextbox"], i["userName"]));
@@ -355,8 +372,8 @@ namespace RMT.UnitTests
                     results.Add(SQLHelper.RunQueryAndReturnResult(getExistingDisabledAndExpiredUserAccountStatus));
                     results.Add(SQLHelper.RunQueryAndReturnResult(getExistingDisabledAndExpiredUserAccountOEM));
                     results.Add(SQLHelper.RunQueryAndReturnDateResult(getExistingDisabledAndExpiredUserAccountExpiryDate));
-                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingDisabledAndExpiredUserAccountActiveRolesCount));
-                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingDisabledAndExpiredUserAccountActiveRMTAgreementsCount));
+                    results.Add(SQLHelper.RunQuery(getExistingDisabledAndExpiredUserAccountActiveRolesCount, getExistingDisabledAndExpiredUserAccountTotalRolesCount));
+                    results.Add(SQLHelper.RunQuery(getExistingDisabledAndExpiredUserAccountActiveRMTAgreementsCount, getExistingDisabledAndExpiredUserAccountTotalRMTAgreementsCount));
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[6]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[6], i["userNameTextbox"], i["userName"]));
@@ -423,10 +440,10 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["editButton"]));
                     results.Add(SQLHelper.RunQueryAndReturnResult(getOEM));
                     results.Add(SeleniumWebHelper.ClickOnDropDown(results[1], i["oemDropDown"]));
-                    results.Add(SeleniumWebHelper.SelectDropDownText(results[1], i["oemDropDown"], (string)results[15]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[1], (string)results[15]));
                     results.Add(SQLHelper.RunQueryAndReturnResult(getStatus));
                     results.Add(SeleniumWebHelper.ClickOnDropDown(results[1], i["userStatusDropDown"]));
-                    results.Add(SeleniumWebHelper.SelectDropDownText(results[1], i["userStatusDropDown"], (string)results[18]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[1], (string)results[18]));
                     results.Add(SeleniumWebHelper.ClickOnRadioButton(results[1], i["expiresOn"]));
                     results.Add(SeleniumWebHelper.SetDateFromCalendar(results[1], i["expiresOnTextbox"], modifiedNewDate));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["saveButton"]));
@@ -481,6 +498,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["editButton"]));
                     results.Add(SQLHelper.RunQueryAndReturnResult(getOEM));
                     results.Add(SeleniumWebHelper.ClickOnDropDown(results[1], i["oemDropDown"]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[1], (string)results[15]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[1], i["OKButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[1], i["finalOKButton"]));
@@ -531,7 +549,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["editButton"]));
                     results.Add(SQLHelper.RunQueryAndReturnResult(getStatus));
                     results.Add(SeleniumWebHelper.ClickOnDropDown(results[1], i["userStatusDropDown"]));
-                    results.Add(SeleniumWebHelper.SelectDropDownText(results[1], i["userStatusDropDown"], (string)results[15]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[1], (string)results[15]));
                     results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[1], i["OKButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[1], i["finalOKButton"]));
@@ -692,6 +710,170 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[1], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[1]));
                     results.Add(SQLHelper.RunQueryAndCompareResult(getExistingUserAccountExtendedExpiryDate, (string)results[0], newDate));
+                    results.Clear();
+                }
+                catch (Exception e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(206002)]
+        [TestProperty("TestCaseId", "206002")]
+        public void VerifyClearButtonFunctionality()
+        {
+            string error = null;
+            int iteration = 0;
+            string newUserName = DataHelper.GenerateRandomUserName();
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingUserName));
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[1]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[1], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["userTab"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[1], i["userTab"], userTabColor));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[1], i["mandatoryFieldTextbox"], i["mandatoryMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["clearButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["mandatoryFieldTextbox"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["nameTextbox"], newUserName));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[1], i["userFoundTextbox"], i["notFoundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["clearButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["userFoundTextbox"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["nameTextbox"], (string)results[0]));
+                    results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[1], i["userNamesAutoPopulateTextbox"], (string)results[0]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[1], i["userFoundTextbox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["clearButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["userFoundTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["nameTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["expiresOnTextbox"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["rolesTileCount"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["RMTAgreementsTileCount"]));
+                    results.Add(SeleniumWebHelper.CheckDropDownText(results[1], i["oemDropDown"], i["oemDropDownText"]));
+                    results.Add(SeleniumWebHelper.CheckDropDownText(results[1], i["userStatusDropDown"]));
+                    results.Add(SeleniumWebHelper.IsRadioButtonSelected(results[1], i["never"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[1], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[1]));
+                    results.Clear();
+                }
+                catch (Exception e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(206011)]
+        [TestProperty("TestCaseId", "206011")]
+        public void VerifyUserNameFieldValidations()
+        {
+            string error = null;
+            int iteration = 0;
+            string newUserName = "test_User_OPXPartner1.onmicrosoft.com";
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingUserName));
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[1]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[1], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["userTab"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[1], i["userTab"], userTabColor));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[1], i["mandatoryFieldTextbox"], i["mandatoryMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["clearButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["mandatoryFieldTextbox"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["nameTextbox"], newUserName));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[1], i["mandatoryFieldTextbox"], i["invalidFormatMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["clearButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["mandatoryFieldTextbox"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["nameTextbox"], (string)results[0]));
+                    results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[1], i["userNamesAutoPopulateTextbox"], (string)results[0]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[1], i["userFoundTextbox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["clearButton"]));
+                    results.Add(SeleniumWebHelper.IsControlEmptyById(results[1], i["userFoundTextbox"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[1], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[1]));
+                    results.Clear();
+                }
+                catch (Exception e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(206020)]
+        [TestProperty("TestCaseId", "206020")]
+        public void VerifyOEMsAreConsistentWithDatabase()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SQLHelper.RunQueryAndReturnResult(getExistingUserName));
+                    results.Add(SQLHelper.RunQueryAndReturnResults(getOEMNames));
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[2]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[2], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[2], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[2], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[2], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[2], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[2], i["userTab"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[2], i["userTab"], userTabColor));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[2], i["nameTextbox"], (string)results[0]));
+                    results.Add(SeleniumWebHelper.SelectAutoPopulateValue(results[2], i["userNamesAutoPopulateTextbox"], (string)results[0]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[2], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[2], i["userFoundTextbox"], i["foundMessage"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[2], i["editButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnDropDown(results[2], i["oemDropDown"]));
+                    results.Add(SeleniumWebHelper.CheckDropDownValues(results[2], (List<string>)results[1]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[2], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[2]));
                     results.Clear();
                 }
                 catch (Exception e)

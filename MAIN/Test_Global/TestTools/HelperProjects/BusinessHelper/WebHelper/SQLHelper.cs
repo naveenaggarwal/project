@@ -69,7 +69,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
 
         }
@@ -114,7 +114,50 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
+            }
+        }
+
+        /// <summary>
+        /// Helper method to run a query and return the result
+        /// </summary>
+        /// <param name="query">String containing the query</param>
+        /// <returns>Result of the query</returns>
+        public static List<string> RunQueryAndReturnResults(string query)
+        {
+            var connString = String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};", ServerName, DatabaseName, UserName, Password);
+            List<string> result = new List<string>();
+            
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    conn.Open();
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                result.Add(reader.GetValue(0).ToString());
+                            }
+                        }
+                    }
+                    conn.Close();
+                }
+
+                if (result == null)
+                {
+                    throw new Exception(string.Format("Unable to fetch any data for the query '{0}'.", query));
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
         }
 
@@ -159,7 +202,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
         }
 
@@ -206,7 +249,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", modifiedQuery, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
         }
 
@@ -250,7 +293,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
         }
 
@@ -327,11 +370,10 @@ namespace MSCOM.BusinessHelper
                     conn.Close();
                 }
 
-                //return result;
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query1, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
 
             return CreateCountString(result1[1][0], result2[1][0]);
@@ -383,11 +425,10 @@ namespace MSCOM.BusinessHelper
                     conn.Close();
                 }
 
-                //return result;
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
 
             if (IsDataEnabledInDatabase(result, dataValues))
@@ -446,11 +487,10 @@ namespace MSCOM.BusinessHelper
                     conn.Close();
                 }
 
-                //return result;
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
 
             if (IsDataEnabledInDatabase(result, dataValue))
@@ -512,7 +552,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
 
             if (IsDataAddedToDatabase(result, value1, value2))
@@ -574,7 +614,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
 
             if (IsDataUpdatedInDatabase(result, value1, value2))
@@ -637,7 +677,7 @@ namespace MSCOM.BusinessHelper
             }
             catch (Exception e)
             {
-                throw new Exception(string.Format("SQLHelper was unable to complete the execution of Query '{0}' at DB '{1}' on Server '{2}'. Error: {3}", query, DatabaseName, ServerName, e.Message));
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
             }
 
             if (IsDataUpdatedInDatabase(result, value1, value2, value3))

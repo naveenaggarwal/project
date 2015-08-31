@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,addUpdateTab,url2,userTab,nameTextbox,lookUpButton,userNamesAutoPopulateTextbox,userFoundTextbox,foundMessage,editButton,oemDropDown,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,hlkAddUpdatePage,https://opxrmtmain.azurewebsites.net/Home/Update,userTab,userNameTxt-user,userNameLookupBtn-user,ui-id-2,userNameAlertLine-user,User already exist,userEdit,userOem,Log off,
