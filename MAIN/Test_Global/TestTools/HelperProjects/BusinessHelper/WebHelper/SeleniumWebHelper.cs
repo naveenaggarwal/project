@@ -1928,7 +1928,7 @@ namespace MSCOM.BusinessHelper
                 {
                     foreach (OpenQA.Selenium.IWebElement elementSet in element.FindElements(By.TagName("li")))
                     {
-                        if (elementSet.Text == text || elementSet.GetAttribute("innerText").Contains(text))
+                        if (elementSet.Text == text || elementSet.GetAttribute("innerText") == (text))
                         {
                             elementSet.Click();
                             return wBrowser;

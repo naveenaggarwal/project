@@ -25,14 +25,17 @@ namespace RMT.UnitTests
 
         #region SQLQueries
 
-        string getEnabledUsersCountQuery = "SELECT COUNT(userID) FROM [dbo].[User] WHERE statusID = 1";
+        string getActiveUsersCountQuery = "SELECT COUNT(userID) FROM [dbo].[User] WHERE statusID = 1 AND (expiryDate > GETDATE() OR expiryDate IS NULL)";
         string getTotalUsersCountQuery = "SELECT COUNT(userID) FROM [dbo].[User]";
 
-        string getEnabledRolesCountQuery = "SELECT COUNT(roleID) FROM [dbo].[Role] WHERE statusID = 1";
+        string getActiveRolesCountQuery = "SELECT COUNT(roleID) FROM [dbo].[Role] WHERE statusID = 1";
         string getTotalRolesCountQuery = "SELECT COUNT(roleID) FROM [dbo].[Role]";
 
-        string getEnabledAgreementsCountQuery = "SELECT COUNT(agreementID) FROM [dbo].[Agreement] WHERE statusID = 1";
+        string getActiveAgreementsCountQuery = "SELECT COUNT(agreementID) FROM [dbo].[Agreement] WHERE statusID = 1 AND expiryDate > GETDATE()";
         string getTotalAgreementsCountQuery = "SELECT COUNT(agreementID) FROM [dbo].[Agreement]";
+
+        string getActiveOEMsCountQuery = "SELECT COUNT(oemID) FROM [dbo].[Oem] WHERE statusID = 1";
+        string getTotalOEMsCountQuery = "SELECT COUNT(oemID) FROM [dbo].[Oem]";
 
         #endregion
 
@@ -520,7 +523,7 @@ namespace RMT.UnitTests
                 iteration++;
                 try
                 {
-                    results.Add(SQLHelper.RunQuery(getEnabledUsersCountQuery, getTotalUsersCountQuery));
+                    results.Add(SQLHelper.RunQuery(getActiveUsersCountQuery, getTotalUsersCountQuery));
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[1]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["userNameTextbox"], i["userName"]));
@@ -606,7 +609,7 @@ namespace RMT.UnitTests
                 iteration++;
                 try
                 {
-                    results.Add(SQLHelper.RunQuery(getEnabledRolesCountQuery, getTotalRolesCountQuery));
+                    results.Add(SQLHelper.RunQuery(getActiveRolesCountQuery, getTotalRolesCountQuery));
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[1]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["userNameTextbox"], i["userName"]));
@@ -642,7 +645,7 @@ namespace RMT.UnitTests
                 iteration++;
                 try
                 {
-                    results.Add(SQLHelper.RunQuery(getEnabledAgreementsCountQuery, getTotalAgreementsCountQuery));
+                    results.Add(SQLHelper.RunQuery(getActiveAgreementsCountQuery, getTotalAgreementsCountQuery));
                     results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[1]));
                     results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["userNameTextbox"], i["userName"]));
@@ -694,7 +697,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["SaveBtn"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
-                    results.Add(SQLHelper.RunQuery(getEnabledRolesCountQuery, getTotalRolesCountQuery));
+                    results.Add(SQLHelper.RunQuery(getActiveRolesCountQuery, getTotalRolesCountQuery));
                     results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["rolesTile"], (string)results[16]));
                     results.Add(SeleniumWebHelper.IsTextDifferent(results[0], i["rolesTile"], (string)results[5]));
@@ -753,7 +756,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
-                    results.Add(SQLHelper.RunQuery(getEnabledRolesCountQuery, getTotalRolesCountQuery));
+                    results.Add(SQLHelper.RunQuery(getActiveRolesCountQuery, getTotalRolesCountQuery));
                     results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["rolesTile"], (string)results[26]));
                     results.Add(SeleniumWebHelper.IsTextDifferent(results[0], i["rolesTile"], (string)results[16]));
@@ -812,7 +815,7 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["yesButton"]));
                     results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
-                    results.Add(SQLHelper.RunQuery(getEnabledRolesCountQuery, getTotalRolesCountQuery));
+                    results.Add(SQLHelper.RunQuery(getActiveRolesCountQuery, getTotalRolesCountQuery));
                     results.Add(SeleniumWebHelper.NavigateTo(results[0], i["url1"]));
                     results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["rolesTile"], (string)results[26]));
                     results.Add(SeleniumWebHelper.IsTextDifferent(results[0], i["rolesTile"], (string)results[16]));
@@ -860,6 +863,42 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CheckBrowserTitle(results[10], i["associatePageTitle"]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Clear();
+                }
+                catch (Exception e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(200190)]
+        [TestProperty("TestCaseId", "200190")]
+        public void VerifyOEMsCountInTileWithDatabase()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    results.Add(SQLHelper.RunQuery(getActiveOEMsCountQuery, getTotalOEMsCountQuery));
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[1]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[1], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[1], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[1], i["OEMsTileCount"], (string)results[0]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[1], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[1]));
                     results.Clear();
                 }
                 catch (Exception e)

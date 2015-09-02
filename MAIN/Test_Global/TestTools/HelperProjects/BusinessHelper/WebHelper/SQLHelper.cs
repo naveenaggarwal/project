@@ -75,6 +75,34 @@ namespace MSCOM.BusinessHelper
         }
 
         /// <summary>
+        /// Helper method to run a DML query. User current user's credentials.
+        /// </summary>
+        /// <param name="query">String containing the query.</param>
+        public static void RunDMLQuery(string query)
+        {
+            var connString = String.Format("Data Source={0};Initial Catalog={1};User Id={2};Password={3};", ServerName, DatabaseName, UserName, Password);
+
+            List<string> resultSetRow = new List<string>();
+            List<string[]> result = new List<string[]>();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    conn.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(string.Format("SQLHelper was unable to complete the execution of the Query. Error: '{0}'", e.Message));
+            }
+
+        }
+
+        /// <summary>
         /// Helper method to run a query and return the result
         /// </summary>
         /// <param name="query">String containing the query</param>

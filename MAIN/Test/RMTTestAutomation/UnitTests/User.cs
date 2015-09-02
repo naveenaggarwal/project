@@ -110,6 +110,18 @@ namespace RMT.UnitTests
 
         #endregion
 
+        #region DeletionSQLQueries
+
+        string deleteExistingUserAccount = "DELETE FROM [dbo].[User] WHERE userName = 'sqa3@OPXPartner1.onmicrosoft.com'";
+
+        #endregion
+
+        #region NewUserAccountSQLQueries
+
+        string getNewUserAccountDetails = "SELECT COUNT(userID) FROM [dbo].[User] WHERE userName = ";
+
+        #endregion
+
         #endregion
 
         #region Attributes
@@ -394,6 +406,207 @@ namespace RMT.UnitTests
                     results.Add(SeleniumWebHelper.CheckElementTextById(results[6], i["RMTAgreementsTile"], (string)results[5]));
                     results.Add(SeleniumWebHelper.ClickOnLinkByText(results[6], i["logOff"]));
                     results.Add(SeleniumWebHelper.CloseBrowser(results[6]));
+                    results.Clear();
+                }
+                catch (Exception e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(205922)]
+        [TestProperty("TestCaseId", "205922")]
+        public void VerifyANewUserAccountCanBeCreatedWithDefaultValues()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    SQLHelper.RunDMLQuery(deleteExistingUserAccount);
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userTab"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[0], i["userTab"], userTabColor));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["newUserName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["userFoundTextbox"], i["notFoundMessage"]));
+                    results.Add(SQLHelper.RunQueryAndReturnResult(getOEM));
+                    results.Add(SeleniumWebHelper.ClickOnDropDown((results[0]), i["oemDropDown"]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[0], (string)results[12]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["finalOKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompareResult(getNewUserAccountDetails, i["newUserName"], "1"));
+                    results.Clear();
+                }
+                catch (Exception e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(205923)]
+        [TestProperty("TestCaseId", "205923")]
+        public void VerifyANewUserAccountWithDisabledStatusCanBeCreated()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    SQLHelper.RunDMLQuery(deleteExistingUserAccount);
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userTab"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[0], i["userTab"], userTabColor));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["newUserName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["userFoundTextbox"], i["notFoundMessage"]));
+                    results.Add(SQLHelper.RunQueryAndReturnResult(getOEM));
+                    results.Add(SeleniumWebHelper.ClickOnDropDown((results[0]), i["oemDropDown"]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[0], (string)results[12]));
+                    results.Add(SeleniumWebHelper.ClickOnDropDown((results[0]), i["userStatusDropDown"]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[0], i["userStatus"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["finalOKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompareResult(getNewUserAccountDetails, i["newUserName"], "1"));
+                    results.Clear();
+                }
+                catch (Exception e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(205927)]
+        [TestProperty("TestCaseId", "205927")]
+        public void VerifyANewUserAccountWithNullExpiryDateCanBeCreated()
+        {
+            string error = null;
+            int iteration = 0;
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    SQLHelper.RunDMLQuery(deleteExistingUserAccount);
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userTab"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[0], i["userTab"], userTabColor));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["newUserName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["userFoundTextbox"], i["notFoundMessage"]));
+                    results.Add(SQLHelper.RunQueryAndReturnResult(getOEM));
+                    results.Add(SeleniumWebHelper.ClickOnDropDown((results[0]), i["oemDropDown"]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[0], (string)results[12]));
+                    results.Add(SeleniumWebHelper.ClickOnRadioButton(results[0], i["never"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["finalOKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompareResult(getNewUserAccountDetails, i["newUserName"], "1"));
+                    results.Clear();
+                }
+                catch (Exception e)
+                {
+                    error += string.Format("\nAt Iteration {0}, The following Exception was thrown: {1}", iteration, e.Message);
+
+                    continue;
+
+                }
+            }
+
+            Assert.IsNull(error, error);
+        }
+
+        [TestMethod]
+        [WorkItem(205932)]
+        [TestProperty("TestCaseId", "205932")]
+        public void VerifyANewUserAccountWithSpecificExpiryDateCanBeCreated()
+        {
+            string error = null;
+            int iteration = 0;
+            string modifiedNewDate = System.DateTime.Now.AddMonths(6).ToString("MMM/d/yyyy");
+            List<object> results = new List<object>();
+            foreach (CSVDataIteration i in currentTC.DataIterations)
+            {
+                iteration++;
+                try
+                {
+                    SQLHelper.RunDMLQuery(deleteExistingUserAccount);
+                    results.Add(SeleniumWebHelper.OpenWebBrowser(i["webBrowser"], i["url1"]));
+                    results.Add(SeleniumWebHelper.CheckIfCachedCredentialsAreRendered(results[0]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["userNameTextbox"], i["userName"]));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["passwordTextbox"], i["password"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["signInButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["addUpdateTab"]));
+                    results.Add(SeleniumWebHelper.CheckPageURLContains(results[0], i["url2"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["userTab"]));
+                    results.Add(SeleniumWebHelper.CheckElementBackgroundColorIs(results[0], i["userTab"], userTabColor));
+                    results.Add(SeleniumWebHelper.WriteOnTextBox(results[0], i["nameTextbox"], i["newUserName"]));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["lookUpButton"]));
+                    results.Add(SeleniumWebHelper.CheckElementTextById(results[0], i["userFoundTextbox"], i["notFoundMessage"]));
+                    results.Add(SQLHelper.RunQueryAndReturnResult(getOEM));
+                    results.Add(SeleniumWebHelper.ClickOnDropDown((results[0]), i["oemDropDown"]));
+                    results.Add(SeleniumWebHelper.SelectDropDownText(results[0], (string)results[12]));
+                    results.Add(SeleniumWebHelper.SetDateFromCalendar(results[0], i["expiresOnTextbox"],modifiedNewDate));
+                    results.Add(SeleniumWebHelper.ClickOnElement(results[0], i["saveButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["OKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnAButton(results[0], i["finalOKButton"]));
+                    results.Add(SeleniumWebHelper.ClickOnLinkByText(results[0], i["logOff"]));
+                    results.Add(SeleniumWebHelper.CloseBrowser(results[0]));
+                    results.Add(SQLHelper.RunQueryAndCompareResult(getNewUserAccountDetails, i["newUserName"], "1"));
                     results.Clear();
                 }
                 catch (Exception e)
