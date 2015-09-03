@@ -1,0 +1,2 @@
+webBrowser,url1,userNameTextbox,userName,passwordTextbox,password,signInButton,onboardToAADTab,url2,aadTenantTextbox,aadAdminTextbox,lookUpButton,signUpButton,clearButton,logOff,
+IE,https://opxrmtmain.azurewebsites.net/,cred_userid_inputtext,opxrm@opxaad.onmicrosoft.com,cred_password_inputtext,OPX@2015,cred_sign_in_button,hlkAADTenantPage,https://opxrmtmain.azurewebsites.net/AADTenant/OnBoardToAAD,txtAadTenantSearch,txtAadAdmin,btnLookupAADTenant,aadSubmit,btnClearAAD,Log off,

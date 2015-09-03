@@ -87,12 +87,22 @@ namespace MSCOM.BusinessHelper
             return driver;
         }
 
-        public static bool Refresh(object browser)
+        public static void Refresh(object browser)
         {
             OpenQA.Selenium.IWebDriver driver = (OpenQA.Selenium.IWebDriver)browser;
             driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(60));
             driver.Navigate().Refresh();
-            return true;
+        }
+
+        /// <summary>
+        /// Navigates to the previous page of the current browser session
+        /// </summary>
+        /// <param name="browser">OpenQA.Selenium.IWebDriver object</param>
+        public static void GoBackToPreviousPage(object browser)
+        {
+            OpenQA.Selenium.IWebDriver driver = (OpenQA.Selenium.IWebDriver)browser;
+            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(60));
+            driver.Navigate().Back();
         }
 
         /// <summary>
@@ -2047,6 +2057,7 @@ namespace MSCOM.BusinessHelper
                 {
                     foreach (OpenQA.Selenium.IWebElement ele in element.FindElements(By.TagName("span")))
                     {
+                        var it = ele.GetAttribute("innerText");
                         if (ele.GetAttribute("innerText") == text || ele.Text == text)
                         {
                             ele.Click();

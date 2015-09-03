@@ -26,7 +26,7 @@ namespace RMT.UnitTests
 
         string getExistingOemDescription = "SELECT oemDescription FROM [dbo].[Oem] WHERE oemName = (SELECT TOP 1 oemName FROM [dbo].[Oem] WHERE statusID = 1 AND oemDescription IS NOT NULL AND oemDescription NOT LIKE '%<br/>%')";
 
-        string getExistingOemAADTenant = "SELECT tenantName FROM [dbo].[AadTenant] WHERE aadTenantID = (SELECT tenantID FROM [dbo].[Oem] WHERE oemName = (SELECT TOP 1 oemName FROM [dbo].[Oem] WHERE statusID = 1 AND oemDescription IS NOT NULL AND oemDescription NOT LIKE '%<br/>%'))";
+        string getExistingOemAADTenant = "SELECT tenantName FROM [dbo].[AadTenant] WHERE aadTenantID = (SELECT aadTenantID FROM [dbo].[Oem] WHERE oemName = (SELECT TOP 1 oemName FROM [dbo].[Oem] WHERE statusID = 1 AND oemDescription IS NOT NULL AND oemDescription NOT LIKE '%<br/>%'))";
 
         string getExistingOemActiveRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[OemAgreement] WHERE oemID = (SELECT oemID FROM [dbo].[Oem] WHERE oemName = (SELECT TOP 1 oemName FROM [dbo].[Oem] WHERE statusID = 1 AND oemDescription IS NOT NULL AND oemDescription NOT LIKE '%<br/>%')) AND agreementID NOT IN (SELECT agreementID FROM [dbo].[Agreement] WHERE statusId = 2 OR expiryDate < GETDATE())";
 
@@ -46,7 +46,7 @@ namespace RMT.UnitTests
 
         string getExistingDisabledOemDescription = "SELECT oemDescription FROM [dbo].[Oem] WHERE oemName = (SELECT TOP 1 oemName FROM [dbo].[Oem] WHERE statusID = 2 AND oemDescription IS NOT NULL AND oemDescription NOT LIKE '%<br/>%')";
 
-        string getExistingDisabledOemAADTenant = "SELECT tenantName FROM [dbo].[AadTenant] WHERE aadTenantID = (SELECT tenantID FROM [dbo].[Oem] WHERE oemName = (SELECT TOP 1 oemName FROM [dbo].[Oem] WHERE statusID = 2 AND oemDescription IS NOT NULL AND oemDescription NOT LIKE '%<br/>%'))";
+        string getExistingDisabledOemAADTenant = "SELECT tenantName FROM [dbo].[AadTenant] WHERE aadTenantID = (SELECT aadTenantID FROM [dbo].[Oem] WHERE oemName = (SELECT TOP 1 oemName FROM [dbo].[Oem] WHERE statusID = 2 AND oemDescription IS NOT NULL AND oemDescription NOT LIKE '%<br/>%'))";
 
         string getExistingDisabledOemActiveRMTAgreementsCount = "SELECT COUNT(agreementID) FROM [dbo].[OemAgreement] WHERE oemID = (SELECT oemID FROM [dbo].[Oem] WHERE oemName = (SELECT TOP 1 oemName FROM [dbo].[Oem] WHERE statusID = 2 AND oemDescription IS NOT NULL AND oemDescription NOT LIKE '%<br/>%')) AND agreementID NOT IN (SELECT agreementID FROM [dbo].[Agreement] WHERE statusId = 2 OR expiryDate < GETDATE())";
 

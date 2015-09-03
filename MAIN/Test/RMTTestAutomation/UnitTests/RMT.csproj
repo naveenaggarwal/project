@@ -82,6 +82,7 @@
     <Compile Include="MapRMTAgreementToRole.cs" />
     <Compile Include="MapUserToRMTAgreement.cs" />
     <Compile Include="OEM.cs" />
+    <Compile Include="OnboardToAAD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MapUserToRoles.cs" />
     <Compile Include="RMTAgreement.cs" />
